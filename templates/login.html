@@ -1,0 +1,392 @@
+{% extends 'base_auth.html' %}
+{% block title %} LOGIN {% endblock title %}
+{% block body %}
+
+<style>
+  .login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 2rem 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .login-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    border: 1px solid #667eea;
+    max-width: 400px;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+  .login-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+  .login-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .login-body {
+    padding: 2rem;
+  }
+  .form-floating {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  /* Animated Alert Styles */
+  .animated-alert {
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    animation: slideInDown 0.5s ease-out;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .animated-alert.alert-error {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+  }
+
+  .animated-alert.alert-success {
+    background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+    color: white;
+  }
+
+  .alert-content {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    position: relative;
+  }
+
+  .alert-icon {
+    font-size: 20px;
+    margin-right: 12px;
+    animation: pulse 2s infinite;
+  }
+
+  .alert-message {
+    flex: 1;
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  .alert-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+  }
+
+  .alert-close:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
+  }
+
+  .alert-progress {
+    height: 3px;
+    background: rgba(255,255,255,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .alert-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255,255,255,0.6);
+    animation: progress 5s linear;
+  }
+
+  .fade-out {
+    animation: fadeOutUp 0.3s ease-out forwards;
+  }
+
+  /* Animations */
+  @keyframes slideInDown {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOutUp {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes progress {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0%;
+    }
+  }
+  .form-floating label {
+    color: #495057;
+    font-weight: 500;
+  }
+  .form-control {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  .form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+  }
+  .btn-login {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    width: 100%;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+  }
+  .alert {
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 1rem;
+  }
+  .back-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .back-link:hover {
+    text-decoration: underline;
+  }
+  .gaming-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #667eea;
+  }
+  .loading {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    z-index: 1000;
+  }
+  .loading-spinner {
+    border: 4px solid #667eea;
+    border-top: 4px solid #764ba2;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+</style>
+
+<div class="login-container">
+  <div class="login-card">
+    <!-- Login Header -->
+    <div class="login-header">
+      <i class="fas fa-gamepad gaming-icon"></i>
+      <h1>DETOX GAMING</h1>
+      <p class="mb-0">PLAYER LOGIN</p>
+    </div>
+
+    <!-- Login Body -->
+    <div class="login-body">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form id="loginForm">
+        {% csrf_token %}
+        
+        <!-- Username Field -->
+        <div class="form-floating">
+          <input type="text" name="username" class="form-control" id="username" placeholder="Username" required autocomplete="off">
+          <label for="username">Username</label>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-floating">
+          <input type="password" name="password" class="form-control" id="password" placeholder="Password" required autocomplete="new-password">
+          <label for="password">Password</label>
+          <button type="button" class="btn btn-outline-secondary position-absolute end-0 top-0 h-100 d-flex align-items-center" id="togglePassword" style="border-radius: 0 10px 10px 0; border: 2px solid #e9ecef; border-left: none;">
+            <i class="fas fa-eye" id="eyeIcon"></i>
+          </button>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-login" id="loginBtn">
+          <i class="fas fa-sign-in-alt me-2"></i>LOGIN
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+    
+    // Clear form on page load to prevent browser warning
+    if (loginForm) {
+        loginForm.reset();
+    }
+    
+    // Toggle password visibility
+    if (togglePassword && passwordInput && eyeIcon) {
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle eye icon
+            if (type === 'text') {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        });
+    }
+    
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+            
+            // Get form data
+            const formData = new FormData(loginForm);
+            const username = formData.get('username');
+            const password = formData.get('password');
+            
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>LOGGING IN...';
+            
+            // Make API call using fetch
+            fetch('/login/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Login successful - redirect to home page with sliding images
+                    window.location.href = '/home/';
+                } else {
+                    // Login failed - show error
+                    showAlert('error', data.error || 'Login failed. Please try again.');
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>LOGIN';
+                }
+            })
+            .catch(error => {
+                console.error('Login error:', error);
+                showAlert('error', 'An error occurred. Please try again.');
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>LOGIN';
+            });
+        });
+    }
+    
+    // Function to show alerts dynamically with animation
+    function showAlert(type, message) {
+        // Remove existing alerts
+        const existingAlerts = document.querySelectorAll('.animated-alert');
+        existingAlerts.forEach(alert => alert.remove());
+        
+        // Create new animated alert
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `animated-alert alert-${type}`;
+        alertDiv.innerHTML = `
+            <div class="alert-content">
+                <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'} alert-icon"></i>
+                <span class="alert-message">${message}</span>
+                <button class="alert-close" onclick="this.parentElement.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="alert-progress"></div>
+        `;
+        
+        // Insert alert at the top of the login body
+        const loginBody = document.querySelector('.login-body');
+        loginBody.insertBefore(alertDiv, loginBody.firstChild);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (alertDiv.parentElement) {
+                alertDiv.classList.add('fade-out');
+                setTimeout(() => alertDiv.remove(), 300);
+            }
+        }, 5000);
+    }
+});
+</script>
+
+{% endblock body %}

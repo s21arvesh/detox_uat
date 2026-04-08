@@ -1,0 +1,728 @@
+{% extends 'base_auth.html' %}
+{% block title %} WELCOME {% endblock title %}
+{% block body %}
+
+<style>
+  .welcome-hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 5rem 0;
+    margin-bottom: 3rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+  }
+  .welcome-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+    animation: grid-move 20s linear infinite;
+  }
+  .welcome-content {
+    position: relative;
+    z-index: 2;
+  }
+  .welcome-title {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2, #ff0080);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 3s ease-in-out infinite;
+  }
+  .welcome-subtitle {
+    font-size: 1.5rem;
+    opacity: 0.9;
+    margin-bottom: 3rem;
+    animation: fade-in-up 1s ease-out;
+  }
+  .auth-buttons {
+    animation: fade-in-up 1.2s ease-out;
+    margin-top: 2rem;
+  }
+  .btn-sign-in, .btn-sign-up {
+    padding: 18px 40px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    margin: 0 15px;
+  }
+  .btn-sign-in {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  }
+  .btn-sign-in:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    color: white;
+  }
+  .btn-sign-up {
+    background: transparent;
+    color: white;
+    border-color: white;
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+  }
+  .btn-sign-up:hover {
+    background: white;
+    color: #667eea;
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.3);
+    border-color: white;
+  }
+  .feature-icons {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 4rem;
+  }
+  .feature-icon-item {
+    text-align: center;
+    animation: float 3s ease-in-out infinite;
+  }
+  .feature-icon-item:nth-child(2) {
+    animation-delay: 0.5s;
+  }
+  .feature-icon-item:nth-child(3) {
+    animation-delay: 1s;
+  }
+  .icon-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  }
+  .icon-circle:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 20px 45px rgba(102, 126, 234, 0.4);
+  }
+  .icon-circle.primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+  }
+  .icon-circle.success {
+    background: linear-gradient(135deg, #51cf66, #40c057);
+    color: white;
+  }
+  .icon-circle.warning {
+    background: linear-gradient(135deg, #ffd93d, #ffb84d);
+    color: white;
+  }
+  
+  /* Modal Styling */
+  .modal {
+    backdrop-filter: blur(5px);
+  }
+  
+  .modal-content {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 2px solid #667eea;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+  
+  .modal-header {
+    border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, #667eea, #764ba2);
+  }
+  
+  .modal-body {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: white;
+  }
+  
+  .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    color: white;
+  }
+  
+  .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+    color: white;
+  }
+  
+  .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .form-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+  }
+  
+  .form-check-input:checked {
+    background-color: #667eea;
+    border-color: #667eea;
+  }
+  
+  .form-check-label {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .btn-close-white {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+  }
+  
+  .btn-close-white:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Enhanced Form Styling */
+  .input-group {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+  }
+  
+  .input-group-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-right: none;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+  }
+  
+  .input-group .form-control {
+    border-left: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  .input-group .form-control:focus {
+    border-left: none;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+    color: white;
+  }
+  
+  .form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    color: white !important;
+    padding: 0.75rem 1rem;
+  }
+  
+  .form-select:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+    color: white !important;
+  }
+  
+  .form-select option {
+    background: #1a1a2e;
+    color: white !important;
+  }
+  
+  .form-select::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+  
+  /* Force white text for all select elements */
+  select.form-select {
+    color: white !important;
+  }
+  
+  select.form-select option {
+    color: white !important;
+  }
+  
+  /* Webkit browsers */
+  .form-select::-webkit-text-fill-color {
+    color: white !important;
+  }
+  
+  .form-select:-moz-text-fill-color {
+    color: white !important;
+  }
+  
+  /* Custom Dropdown Arrows */
+  .form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    color: white !important;
+    padding: 0.75rem 1.5rem;
+    appearance: auto;
+  }
+  
+  .form-select:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+    color: white !important;
+    appearance: auto;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .form-select option {
+    background: #1a1a2e;
+    color: white !important;
+  }
+  
+  .form-select::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+  
+  /* Force white text for all select elements */
+  select.form-select {
+    color: white !important;
+  }
+  
+  select.form-select option {
+    color: white !important;
+  }
+  
+  /* Webkit browsers */
+  .form-select::-webkit-text-fill-color {
+    color: white !important;
+  }
+  
+  .form-select:-moz-text-fill-color {
+    color: white !important;
+  }
+  
+  .form-select::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .form-select::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .form-select::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 4px;
+  }
+  
+  .form-check-input:checked {
+    background-color: #667eea;
+    border-color: #667eea;
+  }
+  
+  .form-check-label {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .form-check-label a {
+    color: #667eea;
+    text-decoration: none;
+  }
+  
+  .form-check-label a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+  }
+  
+  .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+    border-radius: 50px;
+  }
+  
+  /* Notification Styling */
+  .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    min-width: 300px;
+    animation: slideInRight 0.3s ease-out;
+  }
+  
+  .notification-content {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+  }
+  
+  .notification-success .notification-content {
+    background: linear-gradient(135deg, #51cf66, #40c057);
+    color: white;
+  }
+  
+  .notification-error .notification-content {
+    background: linear-gradient(135deg, #ff6b6b, #dc3545);
+    color: white;
+  }
+  
+  .notification-content i {
+    font-size: 1.2rem;
+    margin-right: 0.75rem;
+  }
+  
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes grid-move {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(40px, 40px); }
+  }
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+</style>
+
+<!-- Welcome Hero Section -->
+<header class="welcome-hero">
+  <div class="container welcome-content text-center">
+    <h1 class="welcome-title">
+      <i class="fas fa-gamepad me-4"></i>WELCOME TO DETOX GAMING
+    </h1>
+    <p class="welcome-subtitle">Your ultimate gaming destination • Join the elite community</p>
+    
+    <!-- Authentication Buttons -->
+    <div class="auth-buttons">
+      <button class="btn btn-sign-in" onclick="showLogin()">
+        <i class="fas fa-sign-in-alt me-3"></i>SIGN IN
+      </button>
+      <button class="btn btn-sign-up" onclick="showSignUp()">
+        <i class="fas fa-user-plus me-3"></i>SIGN UP
+      </button>
+    </div>
+    
+    <!-- Feature Icons -->
+    <div class="feature-icons">
+      <div class="feature-icon-item">
+        <div class="icon-circle primary">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h4>TOURNAMENTS</h4>
+        <p class="text-white-50">Compete & Win</p>
+      </div>
+      <div class="feature-icon-item">
+        <div class="icon-circle success">
+          <i class="fas fa-users"></i>
+        </div>
+        <h4>COMMUNITY</h4>
+        <p class="text-white-50">Join Teams</p>
+      </div>
+      <div class="feature-icon-item">
+        <div class="icon-circle warning">
+          <i class="fas fa-star"></i>
+        </div>
+        <h4>ACHIEVEMENTS</h4>
+        <p class="text-white-50">Level Up</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Sign Up Modal -->
+<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="signUpModalLabel">
+          <i class="fas fa-user-plus me-2"></i>Create Account
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="signUpForm">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="signupUsername" class="form-label">Username</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark text-white">
+                  <i class="fas fa-user"></i>
+                </span>
+                <input type="text" class="form-control" id="signupUsername" required placeholder="Enter username">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="signupEmail" class="form-label">Email Address</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark text-white">
+                  <i class="fas fa-envelope"></i>
+                </span>
+                <input type="email" class="form-control" id="signupEmail" required placeholder="Enter email">
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="signupPassword" class="form-label">Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark text-white">
+                  <i class="fas fa-lock"></i>
+                </span>
+                <input type="password" class="form-control" id="signupPassword" required placeholder="Enter password">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark text-white">
+                  <i class="fas fa-lock"></i>
+                </span>
+                <input type="password" class="form-control" id="signupConfirmPassword" required placeholder="Confirm password">
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="signupFavoriteGame" class="form-label">Favorite Game</label>
+              <select class="form-select" id="signupFavoriteGame" required style="color: white !important; background: rgba(255, 255, 255, 0.1);">
+                <option value="" style="color: rgba(255, 255, 255, 0.6);">Choose your game</option>
+                <option value="bgmi" style="color: white;">BGMI</option>
+                <option value="valorant" style="color: white;">Valorant</option>
+                <option value="cod" style="color: white;">Call of Duty Mobile</option>
+                <option value="freefire" style="color: white;">Free Fire</option>
+                <option value="pubg" style="color: white;">PUBG</option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="signupExperience" class="form-label">Experience Level</label>
+              <select class="form-select" id="signupExperience" required style="color: white !important; background: rgba(255, 255, 255, 0.1);">
+                <option value="" style="color: rgba(255, 255, 255, 0.6);">Select experience</option>
+                <option value="beginner" style="color: white;">Beginner</option>
+                <option value="intermediate" style="color: white;">Intermediate</option>
+                <option value="advanced" style="color: white;">Advanced</option>
+                <option value="professional" style="color: white;">Professional</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-12 mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                <label class="form-check-label" for="termsCheck">
+                  I agree to <a href="/terms" class="text-primary text-decoration-none" style="cursor: pointer; transition: color 0.3s ease;">Terms and Conditions</a> and <a href="/privacy" class="text-primary text-decoration-none" style="cursor: pointer; transition: color 0.3s ease;">Privacy Policy</a>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary w-100 btn-lg">
+                <i class="fas fa-user-plus me-2"></i>Create Account
+              </button>
+            </div>
+          </div>
+          
+          <div class="row mt-3">
+            <div class="col-12 text-center">
+              <p class="text-muted">Already have an account? 
+                <a href="/login/" class="text-primary text-decoration-none">Sign In</a>
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Recruitment CTA -->
+  <section class="text-center py-5">
+    <div class="neon-border p-5" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+      <h2 class="text-white fw-bold mb-3 display-6">READY TO LEVEL UP?</h2>
+      <p class="text-white mb-4 fs-5">Join the elite ranks of Detox Gaming and compete with the best</p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="/join_us" class="btn btn-primary btn-lg pulse-animation" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 50px; padding: 15px 40px;">
+          <i class="fas fa-rocket me-2"></i>APPLY NOW
+        </a>
+        <a href="/esports" class="btn btn-outline-light btn-lg" style="border-radius: 50px; padding: 15px 40px;">
+          <i class="fas fa-eye me-2"></i>VIEW TEAMS
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+function showLogin() {
+  window.location.href = '/login';
+}
+
+function showSignUp() {
+  const modal = new bootstrap.Modal(document.getElementById('signUpModal'));
+  modal.show();
+}
+
+// Handle Sign Up Form Submission
+document.getElementById('signUpForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const username = document.getElementById('signupUsername').value;
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  const confirmPassword = document.getElementById('signupConfirmPassword').value;
+  const favoriteGame = document.getElementById('signupFavoriteGame').value;
+  const experience = document.getElementById('signupExperience').value;
+  const termsCheck = document.getElementById('termsCheck').checked;
+  
+  // Basic validation
+  if (password !== confirmPassword) {
+    showNotification('error', 'Passwords do not match!');
+    return;
+  }
+  
+  if (password.length < 6) {
+    showNotification('error', 'Password must be at least 6 characters long!');
+    return;
+  }
+  
+  if (!favoriteGame) {
+    showNotification('error', 'Please select your favorite game!');
+    return;
+  }
+  
+  if (!experience) {
+    showNotification('error', 'Please select your experience level!');
+    return;
+  }
+  
+  if (!termsCheck) {
+    showNotification('error', 'Please agree to the terms and conditions!');
+    return;
+  }
+  
+  // Show loading state
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const originalText = submitBtn.innerHTML;
+  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Account...';
+  submitBtn.disabled = true;
+  
+  // Prepare form data
+  const formData = {
+    username: username,
+    email: email,
+    password: password,
+    favorite_game: favoriteGame,
+    experience_level: experience
+  };
+  
+  // Get CSRF token
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  
+  // Make real API call to signup endpoint
+  fetch('/signup/', {
+    method: 'POST',
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRFToken': csrfToken
+    },
+    body: new URLSearchParams(formData).toString()
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showNotification('success', data.message);
+      bootstrap.Modal.getInstance(document.getElementById('signUpModal')).hide();
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+      e.target.reset();
+      
+      // Redirect to login page
+      setTimeout(() => {
+        window.location.href = '/login/';
+      }, 1500);
+    } else {
+      showNotification('error', data.error);
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
+  })
+  .catch(error => {
+    console.error('Signup error:', error);
+    showNotification('error', 'An error occurred. Please try again.');
+    submitBtn.innerHTML = originalText;
+    submitBtn.disabled = false;
+  });
+});
+
+// Notification function
+function showNotification(type, message) {
+  // Remove existing notifications
+  const existing = document.querySelector('.notification');
+  if (existing) {
+    existing.remove();
+  }
+  
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.innerHTML = `
+    <div class="notification-content">
+      <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+      <span>${message}</span>
+    </div>
+  `;
+  
+  // Add to page
+  document.body.appendChild(notification);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+</script>
+
+{% endblock body %} 

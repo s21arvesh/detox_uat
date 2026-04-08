@@ -1,0 +1,438 @@
+{% extends 'base.html' %}
+{% block title %} JOIN US {% endblock title %}
+{% block body %}
+
+<style>
+  .join-hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 5rem 0;
+    margin-bottom: 3rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .join-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+    animation: grid-move 20s linear infinite;
+  }
+  .join-hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+    animation: fade-in-up 1s ease-out, glow 2s ease-in-out infinite alternate;
+  }
+  @keyframes glow {
+    0% { text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+    50% { text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px rgba(102,126,234,0.5); }
+    100% { text-shadow: 0 0 15px rgba(255,255,255,0.6); }
+  }
+  .hero-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    animation: fade-in-up 1s ease-out;
+  }
+  .feature-circles {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+  .feature-circle {
+    text-align: center;
+    animation: float 3s ease-in-out infinite;
+  }
+  .feature-circle:nth-child(2) {
+    animation-delay: 0.5s;
+  }
+  .feature-circle:nth-child(3) {
+    animation-delay: 1s;
+  }
+  .circle-bg {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  .circle-bg:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+  }
+  .circle-bg.primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+  }
+  .circle-bg.success {
+    background: linear-gradient(135deg, #51cf66, #40c057);
+    color: white;
+  }
+  .circle-bg.warning {
+    background: linear-gradient(135deg, #ffd93d, #ffb84d);
+    color: white;
+  }
+  .glitch-text {
+    position: relative;
+    animation: glitch 2s infinite;
+  }
+  @keyframes glitch {
+    0%, 100% { text-shadow: 0.05em 0 0 #667eea, -0.025em -0.05em 0 #764ba2, 0.025em 0.05em 0 #ff0080; }
+    25% { text-shadow: -0.05em -0.025em 0 #667eea, 0.025em 0.025em 0 #764ba2, -0.05em -0.05em 0 #ff0080; }
+    50% { text-shadow: 0.025em 0.05em 0 #667eea, 0.05em 0 0 #764ba2, 0 -0.05em 0 #ff0080; }
+    75% { text-shadow: -0.025em 0 0 #667eea, -0.025em -0.025em 0 #764ba2, -0.025em -0.05em 0 #ff0080; }
+  }
+  @keyframes grid-move {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(40px, 40px); }
+  }
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  .form-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    overflow: hidden;
+    animation: slide-up 0.8s ease-out;
+  }
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .form-control, .form-select {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+  }
+  .btn-submit {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  }
+  .role-card {
+    transition: all 0.3s ease;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .role-card:hover {
+    border-color: #667eea;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+  .role-card.selected {
+    border-color: #667eea;
+    background: rgba(102, 126, 234, 0.1);
+  }
+  .feature-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+  }
+</style>
+
+<!-- Join Us Hero Section -->
+<header class="join-hero text-center">
+  <div class="container join-hero-content">
+    <h1 class="hero-title">
+      <i class="fas fa-user-plus me-3"></i>JOIN DETOX GAMING
+    </h1>
+    <p class="hero-subtitle">Show your skills and become part of our elite gaming community</p>
+    
+    <div class="feature-circles">
+      <div class="feature-circle">
+        <div class="circle-bg primary">
+          <i class="fas fa-gamepad"></i>
+        </div>
+        <h5>Pro Players</h5>
+      </div>
+      <div class="feature-circle">
+        <div class="circle-bg success">
+          <i class="fas fa-video"></i>
+        </div>
+        <h5>Content Creators</h5>
+      </div>
+      <div class="feature-circle">
+        <div class="circle-bg warning">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h5>Tournaments</h5>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="container mb-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      
+      <!-- Application Form -->
+      <div class="card form-card">
+        <div class="card-body p-4">
+          <h2 class="card-title text-center mb-4 fw-bold">Application Form</h2>
+          
+          <form>
+            <div class="row g-3">
+              
+              <!-- Personal Information -->
+              <div class="col-12">
+                <h5 class="mb-3 text-primary">
+                  <i class="fas fa-user me-2"></i>Personal Information
+                </h5>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" placeholder="your@email.com" required>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" placeholder="+91 1234567890" required>
+              </div>
+              
+              <div class="col-12">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" class="form-control" id="age" placeholder="Enter your age" min="16" max="50" required>
+              </div>
+              
+              <!-- Gaming Information -->
+              <div class="col-12 mt-4">
+                <h5 class="mb-3 text-success">
+                  <i class="fas fa-gamepad me-2"></i>Gaming Information
+                </h5>
+              </div>
+              
+              <div class="col-12">
+                <label class="form-label">Select Your Role</label>
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <div class="card role-card text-center p-3" onclick="selectRole(this, 'player')">
+                      <div class="feature-icon bg-primary text-white">
+                        <i class="fas fa-user fa-2x"></i>
+                      </div>
+                      <h6>Pro Player</h6>
+                      <small class="text-muted">Competitive Gaming</small>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card role-card text-center p-3" onclick="selectRole(this, 'creator')">
+                      <div class="feature-icon bg-success text-white">
+                        <i class="fas fa-video fa-2x"></i>
+                      </div>
+                      <h6>Content Creator</h6>
+                      <small class="text-muted">Streaming & Content</small>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card role-card text-center p-3" onclick="selectRole(this, 'both')">
+                      <div class="feature-icon bg-warning text-white">
+                        <i class="fas fa-star fa-2x"></i>
+                      </div>
+                      <h6>Both</h6>
+                      <small class="text-muted">Player & Creator</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="game" class="form-label">Primary Game</label>
+                <select class="form-select" id="game" required>
+                  <option value="">Choose your game...</option>
+                  <option value="bgmi">BGMI</option>
+                  <option value="valorant">Valorant</option>
+                  <option value="codm">COD Mobile</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="experience" class="form-label">Experience (Years)</label>
+                <select class="form-select" id="experience" required>
+                  <option value="">Select experience...</option>
+                  <option value="0-1">0-1 Year</option>
+                  <option value="1-2">1-2 Years</option>
+                  <option value="2-3">2-3 Years</option>
+                  <option value="3+">3+ Years</option>
+                </select>
+              </div>
+              
+              <div class="col-12">
+                <label for="ign" class="form-label">In-Game Name (IGN)</label>
+                <input type="text" class="form-control" id="ign" placeholder="Your gaming username" required>
+              </div>
+              
+              <div class="col-12">
+                <label for="achievements" class="form-label">Achievements & Highlights</label>
+                <textarea class="form-control" id="achievements" rows="3" placeholder="Tell us about your gaming achievements, tournament wins, etc."></textarea>
+              </div>
+              
+              <!-- Social Media -->
+              <div class="col-12 mt-4">
+                <h5 class="mb-3 text-info">
+                  <i class="fas fa-share-alt me-2"></i>Social Media
+                </h5>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="youtube" class="form-label">YouTube Channel (Optional)</label>
+                <input type="url" class="form-control" id="youtube" placeholder="https://youtube.com/yourchannel">
+              </div>
+              
+              <div class="col-md-6">
+                <label for="discord" class="form-label">Discord ID</label>
+                <input type="text" class="form-control" id="discord" placeholder="YourDiscord#1234">
+              </div>
+              
+              <!-- Additional Information -->
+              <div class="col-12 mt-4">
+                <h5 class="mb-3 text-warning">
+                  <i class="fas fa-comment me-2"></i>Additional Information
+                </h5>
+              </div>
+              
+              <div class="col-12">
+                <label for="message" class="form-label">Why do you want to join Detox Gaming?</label>
+                <textarea class="form-control" id="message" rows="4" placeholder="Tell us why you'd be a great addition to our team..." required></textarea>
+              </div>
+              
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="terms" required>
+                  <label class="form-check-label" for="terms">
+                    I agree to the terms and conditions and understand that Detox Gaming will review my application
+                  </label>
+                </div>
+              </div>
+              
+              <div class="col-12 text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-submit btn-lg">
+                  <i class="fas fa-paper-plane me-2"></i>Submit Application
+                </button>
+              </div>
+              
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Benefits Section -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <h3 class="text-center mb-4 fw-bold">Why Join Detox Gaming?</h3>
+        </div>
+        <div class="col-md-4">
+          <div class="text-center">
+            <div class="feature-icon bg-primary text-white">
+              <i class="fas fa-users fa-2x"></i>
+            </div>
+            <h5>Community</h5>
+            <p class="text-muted">Join a supportive community of passionate gamers</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="text-center">
+            <div class="feature-icon bg-success text-white">
+              <i class="fas fa-graduation-cap fa-2x"></i>
+            </div>
+            <h5>Growth</h5>
+            <p class="text-muted">Improve your skills with experienced mentors</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="text-center">
+            <div class="feature-icon bg-warning text-white">
+              <i class="fas fa-bullhorn fa-2x"></i>
+            </div>
+            <h5>Exposure</h5>
+            <p class="text-muted">Get noticed through our tournaments and events</p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</main>
+
+<script>
+function selectRole(element, role) {
+  // Remove selected class from all role cards
+  document.querySelectorAll('.role-card').forEach(card => {
+    card.classList.remove('selected');
+  });
+  
+  // Add selected class to clicked card
+  element.classList.add('selected');
+  
+  // You can store the selected role value if needed
+  console.log('Selected role:', role);
+}
+</script>
+
+{% endblock body %}
