@@ -1,0 +1,422 @@
+{% extends 'base.html' %}
+{% block title %} ESPORTS {% endblock title %}
+{% block body %}
+
+<style>
+  .esports-hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 5rem 0;
+    margin-bottom: 3rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .esports-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+  }
+  .esports-text {
+    position: relative;
+    z-index: 2;
+  }
+  .glitch-text {
+    position: relative;
+    text-shadow: 0.05em 0 0 #667eea, -0.025em -0.05em 0 #764ba2, 0.025em 0.05em 0 #ff0080;
+    animation: glitch 2s infinite;
+  }
+  @keyframes glitch {
+    0%, 100% { text-shadow: 0.05em 0 0 #667eea, -0.025em -0.05em 0 #764ba2, 0.025em 0.05em 0 #ff0080; }
+    25% { text-shadow: -0.05em -0.025em 0 #667eea, 0.025em 0.025em 0 #764ba2, -0.05em -0.05em 0 #ff0080; }
+    50% { text-shadow: 0.025em 0.05em 0 #667eea, 0.05em 0 0 #764ba2, 0 -0.05em 0 #ff0080; }
+    75% { text-shadow: -0.025em 0 0 #667eea, -0.025em -0.025em 0 #764ba2, -0.025em -0.05em 0 #ff0080; }
+  }
+  .neon-border {
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.5), inset 0 0 20px rgba(102, 126, 234, 0.1);
+  }
+  .pulse-animation {
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .roster-card {
+    transition: all 0.4s ease;
+    border: 2px solid transparent;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    height: 100%;
+    position: relative;
+  }
+  .roster-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .roster-card:hover::before {
+    opacity: 1;
+  }
+  .roster-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    border-color: #667eea;
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+  }
+  .game-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .player-avatar {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  .team-section {
+    padding: 3rem 0;
+  }
+  .team-header {
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .glitch-text {
+    position: relative;
+    text-shadow: 0.05em 0 0 #667eea, -0.025em -0.05em 0 #764ba2, 0.025em 0.05em 0 #ff0080;
+    animation: glitch 2s infinite;
+  }
+  @keyframes glitch {
+    0%, 100% { text-shadow: 0.05em 0 0 #667eea, -0.025em -0.05em 0 #764ba2, 0.025em 0.05em 0 #ff0080; }
+    25% { text-shadow: -0.05em -0.025em 0 #667eea, 0.025em 0.025em 0 #764ba2, -0.05em -0.05em 0 #ff0080; }
+    50% { text-shadow: 0.025em 0.05em 0 #667eea, 0.05em 0 0 #764ba2, 0 -0.05em 0 #ff0080; }
+    75% { text-shadow: -0.025em 0 0 #667eea, -0.025em -0.025em 0 #764ba2, -0.025em -0.05em 0 #ff0080; }
+  }
+  .neon-border {
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.5), inset 0 0 20px rgba(102, 126, 234, 0.1);
+  }
+  .pulse-animation {
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .stat-number {
+    font-size: 3rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>
+
+<!-- Esports Hero Section -->
+<header class="esports-hero text-center">
+  <div class="container esports-text">
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-8">
+        <h1 class="display-2 fw-bold mb-4 glitch-text">DETOX ESPORTS</h1>
+        <p class="lead mb-4 fs-4">MEET OUR ELITE GAMING ROSTER • DOMINATE THE COMPETITION</p>
+        <div class="d-flex justify-content-center gap-3 mb-5">
+          <div class="neon-border px-4 py-2">
+            <i class="fas fa-trophy me-2"></i>PRO ESPORTS
+          </div>
+          <div class="neon-border px-4 py-2">
+            <i class="fas fa-gamepad me-2"></i>3 GAMES
+          </div>
+          <div class="neon-border px-4 py-2">
+            <i class="fas fa-users me-2"></i>15+ PLAYERS
+          </div>
+        </div>
+        <div class="d-flex justify-content-center gap-3">
+          <a href="/join_us" class="btn btn-primary btn-lg pulse-animation" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 50px; padding: 15px 40px;">
+            <i class="fas fa-user-plus me-2"></i>JOIN ROSTER
+          </a>
+          <a href="/home/" class="btn btn-outline-light btn-lg" style="border-radius: 50px; padding: 15px 40px;">
+            <i class="fas fa-home me-2"></i>BACK HOME
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="team-section">
+  <div class="container">
+    
+    <!-- BGMI Team -->
+    <section class="mb-5">
+      <div class="team-header">
+        <div class="row align-items-center">
+          <div class="col-md-2">
+            <div class="game-logo bg-warning d-flex align-items-center justify-content-center mx-auto">
+              <i class="fas fa-crosshairs fa-2x text-white"></i>
+            </div>
+          </div>
+          <div class="col-md-10">
+            <h2 class="fw-bold mb-0">BGMI Squad</h2>
+            <p class="mb-0 text-muted">Battle Grounds Mobile India - Competitive Roster</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-primary d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">Team Captain</h5>
+              <p class="text-muted">IGL & Assault</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-primary">Pro</span>
+                <span class="badge bg-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-success d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">Support</h5>
+              <p class="text-muted">Medic & Reviver</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-info">Support</span>
+                <span class="badge bg-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-warning d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">Fragger</h5>
+              <p class="text-muted">Entry Fragger</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-warning">Fragger</span>
+                <span class="badge bg-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-danger d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">Sniper</h5>
+              <p class="text-muted">Long Range Specialist</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-danger">Sniper</span>
+                <span class="badge bg-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Valorant Team -->
+    <section class="mb-5">
+      <div class="team-header">
+        <div class="row align-items-center">
+          <div class="col-md-2">
+            <div class="game-logo bg-danger d-flex align-items-center justify-content-center mx-auto">
+              <i class="fas fa-shield-alt fa-2x text-white"></i>
+            </div>
+          </div>
+          <div class="col-md-10">
+            <h2 class="fw-bold mb-0">Valorant Squad</h2>
+            <p class="mb-0 text-muted">Tactical First-Person Shooter - Competitive Roster</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-danger d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">Duelist</h5>
+              <p class="text-muted">Entry Fragger</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-danger">Duelist</span>
+                <span class="badge bg-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-primary d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">Controller</h5>
+              <p class="text-muted">Smoke & Area Control</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-primary">Controller</span>
+                <span class="badge bg-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-success d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">Sentinel</h5>
+              <p class="text-muted">Anchor & Support</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-success">Sentinel</span>
+                <span class="badge bg-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-warning d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">Initiator</h5>
+              <p class="text-muted">Flash & Entry Support</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-warning">Initiator</span>
+                <span class="badge bg-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COD Mobile Team -->
+    <section class="mb-5">
+      <div class="team-header">
+        <div class="row align-items-center">
+          <div class="col-md-2">
+            <div class="game-logo bg-success d-flex align-items-center justify-content-center mx-auto">
+              <i class="fas fa-gun fa-2x text-white"></i>
+            </div>
+          </div>
+          <div class="col-md-10">
+            <h2 class="fw-bold mb-0">COD Mobile Squad</h2>
+            <p class="mb-0 text-muted">Call of Duty Mobile - Fast-Paced Action Team</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-success d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">SMG Player</h5>
+              <p class="text-muted">Rush & Entry</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-success">MAC-10</span>
+                <span class="badge bg-primary">MP5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-primary d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">AR Player</h5>
+              <p class="text-muted">Mid-Range Anchor</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-primary">AK-47</span>
+                <span class="badge bg-danger">M13</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-danger d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">Sniper</h5>
+              <p class="text-muted">Long Range Specialist</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-danger">DL Q33</span>
+                <span class="badge bg-warning">LW3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card roster-card h-100">
+            <div class="card-body text-center">
+              <div class="player-avatar bg-warning d-flex align-items-center justify-content-center mx-auto mb-3">
+                <i class="fas fa-user fa-3x text-white"></i>
+              </div>
+              <h5 class="card-title">LMG Player</h5>
+              <p class="text-muted">Area Control</p>
+              <div class="d-flex justify-content-center gap-2">
+                <span class="badge bg-warning">M91</span>
+                <span class="badge bg-success">PKM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="text-center py-5">
+      <div class="bg-gradient rounded-3 p-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <h2 class="text-white fw-bold mb-3">Want to Join Our Roster?</h2>
+        <p class="text-white mb-4">Show your skills and become part of Detox Gaming</p>
+        <a href="/join_us" class="btn btn-light btn-lg">Apply Now</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+{% endblock body %}

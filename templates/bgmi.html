@@ -1,0 +1,321 @@
+{% extends 'base.html' %}
+{% block title %} BGMI {% endblock title %}
+{% block body %}
+
+<style>
+  .game-hero {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+    color: white;
+  }
+  .player-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .player-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+  .player-avatar {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  .role-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+  }
+  .achievement-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+  }
+</style>
+
+<!-- BGMI Hero Section -->
+<header class="game-hero text-center">
+  <div class="container">
+    <h1 class="display-4 fw-bold mb-4">
+      <i class="fas fa-crosshairs me-3"></i>BGMI SQUAD
+    </h1>
+    <p class="lead mb-4">Battle Grounds Mobile India - Elite Competitive Team</p>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="d-flex justify-content-center gap-4">
+          <div class="text-center">
+            <div class="stat-card">
+              <h3 class="fw-bold">5</h3>
+              <p class="mb-0">Active Players</p>
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="stat-card">
+              <h3 class="fw-bold">12+</h3>
+              <p class="mb-0">Tournament Wins</p>
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="stat-card">
+              <h3 class="fw-bold">4.8</h3>
+              <p class="mb-0">KD Ratio</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="container mb-5">
+  
+  <!-- Team Roster -->
+  <section class="mb-5">
+    <h2 class="text-center mb-4 fw-bold">Active Roster</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card player-card h-100">
+          <div class="position-relative">
+            <div class="player-avatar bg-warning d-flex align-items-center justify-content-center mx-auto mt-4">
+              <i class="fas fa-user fa-3x text-white"></i>
+            </div>
+            <span class="role-badge bg-primary text-white">IGL</span>
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title fw-bold">Team Captain</h5>
+            <p class="text-muted mb-2">In-Game Leader</p>
+            <div class="d-flex justify-content-center gap-2 mb-3">
+              <span class="badge bg-warning">Assault</span>
+              <span class="badge bg-success">Support</span>
+            </div>
+            <div class="row text-center">
+              <div class="col-4">
+                <small class="text-muted">KD</small>
+                <h6 class="fw-bold">5.2</h6>
+              </div>
+              <div class="col-4">
+                <small class="text-muted">Matches</small>
+                <h6 class="fw-bold">850</h6>
+              </div>
+              <div class="col-4">
+                <small class="text-muted">Win %</small>
+                <h6 class="fw-bold">68%</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card player-card h-100">
+          <div class="position-relative">
+            <div class="player-avatar bg-success d-flex align-items-center justify-content-center mx-auto mt-4">
+              <i class="fas fa-user fa-3x text-white"></i>
+            </div>
+            <span class="role-badge bg-success text-white">Support</span>
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title fw-bold">Medic Specialist</h5>
+            <p class="text-muted mb-2">Reviver & Backup</p>
+            <div class="d-flex justify-content-center gap-2 mb-3">
+              <span class="badge bg-info">Medic</span>
+              <span class="badge bg-warning">Fragger</span>
+            </div>
+            <div class="row text-center">
+              <div class="col-4">
+                <small class="text-muted">KD</small>
+                <h6 class="fw-bold">4.8</h6>
+              </div>
+              <div class="col-4">
+                <small class="text-muted">Matches</small>
+                <h6 class="fw-bold">720</h6>
+              </div>
+              <div class="col-4">
+                <small class="text-muted">Win %</small>
+                <h6 class="fw-bold">72%</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card player-card h-100">
+          <div class="position-relative">
+            <div class="player-avatar bg-danger d-flex align-items-center justify-content-center mx-auto mt-4">
+              <i class="fas fa-user fa-3x text-white"></i>
+            </div>
+            <span class="role-badge bg-danger text-white">Sniper</span>
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title fw-bold">Sharpshooter</h5>
+            <p class="text-muted mb-2">Long Range Specialist</p>
+            <div class="d-flex justify-content-center gap-2 mb-3">
+              <span class="badge bg-danger">Sniper</span>
+              <span class="badge bg-primary">Scout</span>
+            </div>
+            <div class="row text-center">
+              <div class="col-4">
+                <small class="text-muted">KD</small>
+                <h6 class="fw-bold">6.1</h6>
+              </div>
+              <div class="col-4">
+                <small class="text-muted">Matches</small>
+                <h6 class="fw-bold">680</h6>
+              </div>
+              <div class="col-4">
+                <small class="text-muted">Win %</small>
+                <h6 class="fw-bold">65%</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card player-card h-100">
+          <div class="position-relative">
+            <div class="player-avatar bg-warning d-flex align-items-center justify-content-center mx-auto mt-4">
+              <i class="fas fa-user fa-3x text-white"></i>
+            </div>
+            <span class="role-badge bg-warning text-white">Fragger</span>
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title fw-bold">Entry Fragger</h5>
+            <p class="text-muted mb-2">Aggressive Player</p>
+            <div class="d-flex justify-content-center gap-2 mb-3">
+              <span class="badge bg-warning">Fragger</span>
+              <span class="badge bg-danger">Rusher</span>
+            </div>
+            <div class="row text-center">
+              <div class="col-4">
+                <small class="text-muted">KD</small>
+                <h6 class="fw-bold">5.8</h6>
+              </div>
+              <div class="col-4">
+                <small class="text-muted">Matches</small>
+                <h6 class="fw-bold">920</h6>
+              </div>
+              <div class="col-4">
+                <small class="text-muted">Win %</small>
+                <h6 class="fw-bold">70%</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card player-card h-100">
+          <div class="position-relative">
+            <div class="player-avatar bg-info d-flex align-items-center justify-content-center mx-auto mt-4">
+              <i class="fas fa-user fa-3x text-white"></i>
+            </div>
+            <span class="role-badge bg-info text-white">Flex</span>
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title fw-bold">All-Rounder</h5>
+            <p class="text-muted mb-2">Flexible Player</p>
+            <div class="d-flex justify-content-center gap-2 mb-3">
+              <span class="badge bg-info">Flex</span>
+              <span class="badge bg-success">Support</span>
+            </div>
+            <div class="row text-center">
+              <div class="col-4">
+                <small class="text-muted">KD</small>
+                <h6 class="fw-bold">4.9</h6>
+              </div>
+              <div class="col-4">
+                <small class="text-muted">Matches</small>
+                <h6 class="fw-bold">780</h6>
+              </div>
+              <div class="col-4">
+                <small class="text-muted">Win %</small>
+                <h6 class="fw-bold">69%</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Achievements -->
+  <section class="mb-5">
+    <h2 class="text-center mb-4 fw-bold">Recent Achievements</h2>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="text-center">
+          <div class="achievement-icon bg-warning text-white">
+            <i class="fas fa-trophy fa-2x"></i>
+          </div>
+          <h6 class="fw-bold">PMIS 2024</h6>
+          <p class="text-muted small">Champions</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="text-center">
+          <div class="achievement-icon bg-success text-white">
+            <i class="fas fa-medal fa-2x"></i>
+          </div>
+          <h6 class="fw-bold">BMPS Season 5</h6>
+          <p class="text-muted small">Top 3</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="text-center">
+          <div class="achievement-icon bg-danger text-white">
+            <i class="fas fa-crown fa-2x"></i>
+          </div>
+          <h6 class="fw-bold">IGL Masters</h6>
+          <p class="text-muted small">Winners</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="text-center">
+          <div class="achievement-icon bg-primary text-white">
+            <i class="fas fa-star fa-2x"></i>
+          </div>
+          <h6 class="fw-bold">Community Cup</h6>
+          <p class="text-muted small">MVP Team</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="text-center py-5">
+    <div class="bg-gradient rounded-3 p-5" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
+      <h2 class="text-white fw-bold mb-3">Want to Challenge Our BGMI Squad?</h2>
+      <p class="text-white mb-4">Test your skills against our elite team</p>
+      <a href="/join_us" class="btn btn-light btn-lg">Challenge Us</a>
+    </div>
+  </section>
+
+</main>
+
+{% endblock body %}
