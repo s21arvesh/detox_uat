@@ -69,10 +69,14 @@ def login_view(request):
                         print(f"User dataaaa: {user_data}")
                         if user_data:
                             print(f"Retrieved username: {user_data['user']}")
-                            # User found and password matches
-                            # Authenticate with Django for session management
-                            # user = authenticate(request, username=retrieved_username, password=password)
+                            # User found and password matches - create session directly
                             if user_data['password'] == password:
+                                # Create session manually since we're using custom database
+                                request.session['user_id'] = user_data['id']
+                                request.session['username'] = user_data['user']
+                                request.session['is_authenticated'] = True
+                                request.session.save()
+                                
                                 return JsonResponse({'success': True, 'message': f'Welcome back, {user_data["user"]}!'})
                             else:
                                 return JsonResponse({'success': False, 'error': 'Authentication failed.'})
@@ -89,23 +93,18 @@ def login_view(request):
                         cursor.execute("SELECT id, user, password FROM users WHERE user = %s AND password = %s", [username, password])
                         user_data = cursor.fetchone()
                         if user_data:
-                            # User found and password matches
-                            user = authenticate(request, username=username, password=password)
-                            print(f"Django authenticate result: {user}")
-                            print(f"Username used for auth: {username}")
-                            print(f"Password used for auth: {password}")
-                            if user is not None:
-                                login(request, user)
-                                print("Django login successful!")
-                                return JsonResponse({'success': True, 'message': f'Welcome back, {username}!'})
-                            else:
-                                print("Django authentication failed - checking password hash...")
-                                # Debug: Check if password exists in database
-                                with connection.cursor() as cursor:
-                                    cursor.execute("SELECT password FROM users WHERE user = %s", [username])
-                                    db_password = cursor.fetchone()
-                                    print(f"Database password: {db_password}")
-                                return JsonResponse({'success': False, 'error': 'Authentication failed.'})
+                            # User found and password matches - create session directly
+                            user_id, db_username, db_password = user_data
+                            print(f"User found: {db_username}, ID: {user_id}")
+                            
+                            # Create session manually since we're using custom database
+                            request.session['user_id'] = user_id
+                            request.session['username'] = db_username
+                            request.session['is_authenticated'] = True
+                            request.session.save()
+                            
+                            print("Custom login successful!")
+                            return JsonResponse({'success': True, 'message': f'Welcome back, {db_username}!'})
                         else:
                             return JsonResponse({'success': False, 'error': 'Invalid username or password.'})
                 except Exception as e:
