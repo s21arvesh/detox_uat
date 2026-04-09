@@ -3,55 +3,126 @@
 {% block body %}
 
 <style>
-  .gaming-hero {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    padding: 5rem 0;
-    margin-bottom: 3rem;
-    color: white;
+  /* Esports Hero Section */
+  .esports-hero {
+    background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #2d1b69 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
     position: relative;
     overflow: hidden;
+    color: white;
   }
-  .gaming-hero::before {
+  
+  .esports-hero::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
-    opacity: 0.3;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(255, 107, 107, 0.2) 0%, transparent 50%);
+    animation: floatingGradient 15s ease-in-out infinite;
   }
-  .gaming-text {
+  
+  @keyframes floatingGradient {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-20px, -20px) rotate(120deg); }
+    66% { transform: translate(20px, -10px) rotate(240deg); }
+  }
+  
+  .hero-content {
     position: relative;
     z-index: 2;
   }
-  .carousel-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-    border: 2px solid #667eea;
-  }
-  .carousel-item img {
-    height: 550px;
-    object-fit: cover;
-    filter: brightness(0.9);
-  }
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    background-color: rgba(102, 126, 234, 0.8);
-    border-radius: 50%;
-    padding: 20px;
-  }
-  .game-card {
-    transition: all 0.4s ease;
-    border: 2px solid transparent;
-    border-radius: 15px;
-    overflow: hidden;
-    height: 100%;
+  
+  /* Glitch Text Effect */
+  .glitch-title {
+    font-size: 5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     position: relative;
+    color: #fff;
+    text-shadow: 
+      0 0 10px rgba(102, 126, 234, 0.8),
+      0 0 20px rgba(102, 126, 234, 0.6),
+      0 0 30px rgba(102, 126, 234, 0.4);
+    animation: glitch 3s infinite;
   }
+  
+  @keyframes glitch {
+    0%, 100% {
+      text-shadow: 
+        0 0 10px rgba(102, 126, 234, 0.8),
+        0 0 20px rgba(102, 126, 234, 0.6),
+        0 0 30px rgba(102, 126, 234, 0.4);
+    }
+    25% {
+      text-shadow: 
+        -2px 0 rgba(255, 107, 107, 0.8),
+        2px 0 rgba(118, 75, 162, 0.8),
+        0 0 15px rgba(255, 107, 107, 0.6);
+    }
+    50% {
+      text-shadow: 
+        2px 0 rgba(118, 75, 162, 0.8),
+        -2px 0 rgba(255, 107, 107, 0.8),
+        0 0 20px rgba(118, 75, 162, 0.6);
+    }
+    75% {
+      text-shadow: 
+        0 0 25px rgba(102, 126, 234, 0.8),
+        0 0 35px rgba(102, 126, 234, 0.6),
+        0 0 45px rgba(102, 126, 234, 0.4);
+    }
+  }
+  
+  /* Animated Grid Background */
+  .grid-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(102, 126, 234, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(102, 126, 234, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 10s linear infinite;
+  }
+  
+  @keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+  
+  /* Floating Elements */
+  .floating-element {
+    position: absolute;
+    opacity: 0.1;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+  }
+  
+  /* Game Cards */
+  .game-card {
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+    border: 2px solid transparent;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    position: relative;
+    backdrop-filter: blur(10px);
+  }
+  
   .game-card::before {
     content: '';
     position: absolute;
@@ -59,115 +130,256 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
     opacity: 0;
     transition: opacity 0.3s ease;
   }
+  
   .game-card:hover::before {
     opacity: 1;
   }
+  
   .game-card:hover {
     transform: translateY(-15px) scale(1.02);
     border-color: #667eea;
-    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+    box-shadow: 
+      0 25px 50px rgba(102, 126, 234, 0.3),
+      0 0 30px rgba(102, 126, 234, 0.2);
   }
+  
+  /* Game Icons */
   .game-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 15px;
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
-    font-size: 2rem;
-    transition: all 0.3s ease;
+    font-size: 2.5rem;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
   }
+  
+  .game-icon::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+  }
+  
+  .game-card:hover .game-icon::before {
+    animation: shine 0.6s ease-in-out;
+  }
+  
+  @keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+  }
+  
   .game-card:hover .game-icon {
     transform: scale(1.1) rotate(5deg);
   }
-  .stat-number {
-    font-size: 3rem;
-    font-weight: bold;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+  
+  /* Stats Counter */
+  .stat-counter {
+    font-size: 4rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #667eea, #764ba2, #ff6b6b);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+    animation: glow 2s ease-in-out infinite alternate;
   }
+  
+  @keyframes glow {
+    from { filter: brightness(1); }
+    to { filter: brightness(1.2); }
+  }
+  
+  /* Tournament Cards */
   .tournament-card {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border: 1px solid #667eea;
-    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(15, 15, 30, 0.95), rgba(26, 26, 46, 0.95));
+    border: 2px solid #667eea;
+    border-radius: 20px;
     padding: 2rem;
     height: 100%;
-    transition: all 0.3s ease;
-  }
-  .tournament-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
-    border-color: #764ba2;
-  }
-  .achievement-badge {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-    font-size: 1.5rem;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-  }
-  .glitch-text {
+    transition: all 0.4s ease;
     position: relative;
-    text-shadow: 0.05em 0 0 #667eea, -0.025em -0.05em 0 #764ba2, 0.025em 0.05em 0 #ff0080;
-    animation: glitch 2s infinite;
+    overflow: hidden;
   }
-  @keyframes glitch {
-    0%, 100% { text-shadow: 0.05em 0 0 #667eea, -0.025em -0.05em 0 #764ba2, 0.025em 0.05em 0 #ff0080; }
-    25% { text-shadow: -0.05em -0.025em 0 #667eea, 0.025em 0.025em 0 #764ba2, -0.05em -0.05em 0 #ff0080; }
-    50% { text-shadow: 0.025em 0.05em 0 #667eea, 0.05em 0 0 #764ba2, 0 -0.05em 0 #ff0080; }
-    75% { text-shadow: -0.025em 0 0 #667eea, -0.025em -0.025em 0 #764ba2, -0.025em -0.05em 0 #ff0080; }
+  
+  .tournament-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #667eea, #764ba2, #ff6b6b, #667eea);
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
   }
-  .neon-border {
-    border: 2px solid #667eea;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(102, 126, 234, 0.5), inset 0 0 20px rgba(102, 126, 234, 0.1);
+  
+  .tournament-card:hover::before {
+    opacity: 1;
   }
-  .pulse-animation {
+  
+  .tournament-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(102, 126, 234, 0.4);
+  }
+  
+  /* Action Buttons */
+  .esports-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 50px;
+    padding: 15px 40px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .esports-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .esports-btn:hover::before {
+    left: 100%;
+  }
+  
+  .esports-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+  }
+  
+  /* Live Badge */
+  .live-badge {
+    background: linear-gradient(135deg, #ff0000, #ff6b6b);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-weight: 600;
     animation: pulse 2s infinite;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
+  
   @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+  }
+  
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    animation: blink 1s infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .glitch-title {
+      font-size: 3rem;
+    }
+    .stat-counter {
+      font-size: 2.5rem;
+    }
   }
 </style>
 
-<!-- Gaming Hero Section -->
-<header class="gaming-hero text-center">
-  <div class="container gaming-text">
-    <div class="row justify-content-center mb-4">
-      <div class="col-lg-8">
-        <h1 class="display-2 fw-bold mb-4 glitch-text">DETOX GAMING</h1>
-        <p class="lead mb-4 fs-4">LEVEL UP YOUR GAME • DOMINATE THE COMPETITION</p>
-        <div class="d-flex justify-content-center gap-3 mb-5">
-          <div class="neon-border px-4 py-2">
-            <i class="fas fa-trophy me-2"></i>PRO ESPORTS
-          </div>
-          <div class="neon-border px-4 py-2">
-            <i class="fas fa-gamepad me-2"></i>3 GAMES
-          </div>
-          <div class="neon-border px-4 py-2">
-            <i class="fas fa-users me-2"></i>15+ PLAYERS
+<!-- Hero Section -->
+<header class="esports-hero">
+  <div class="grid-bg"></div>
+  
+  <!-- Floating Elements -->
+  <div class="floating-element" style="top: 10%; left: 10%; font-size: 3rem;">
+    <i class="fas fa-gamepad"></i>
+  </div>
+  <div class="floating-element" style="top: 20%; right: 15%; font-size: 2rem; animation-delay: 1s;">
+    <i class="fas fa-trophy"></i>
+  </div>
+  <div class="floating-element" style="bottom: 30%; left: 20%; font-size: 2.5rem; animation-delay: 2s;">
+    <i class="fas fa-crosshairs"></i>
+  </div>
+  <div class="floating-element" style="bottom: 20%; right: 10%; font-size: 2rem; animation-delay: 3s;">
+    <i class="fas fa-fire"></i>
+  </div>
+  
+  <div class="container hero-content">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-10">
+        <h1 class="glitch-title mb-4">DETOX GAMING</h1>
+        <p class="lead fs-3 mb-5" style="color: #a8a8b8; font-weight: 300;">
+          <span class="live-badge">
+            <span class="live-dot"></span>
+            LIVE NOW
+          </span>
+          <br>
+          <span class="mt-3 d-block">PROFESSIONAL ESPORTS ORGANIZATION</span>
+        </p>
+        
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-8">
+            <div class="d-flex justify-content-center gap-4 flex-wrap">
+              <div class="text-center">
+                <div class="stat-counter">3</div>
+                <p class="text-white-50">ACTIVE GAMES</p>
+              </div>
+              <div class="text-center">
+                <div class="stat-counter">35+</div>
+                <p class="text-white-50">PRO PLAYERS</p>
+              </div>
+              <div class="text-center">
+                <div class="stat-counter">28</div>
+                <p class="text-white-50">TOURNAMENTS</p>
+              </div>
+              <div class="text-center">
+                <div class="stat-counter">100%</div>
+                <p class="text-white-50">DEDICATION</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center gap-3">
-          <a href="/esports" class="btn btn-primary btn-lg pulse-animation" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 50px; padding: 15px 40px;">
+        
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <a href="/esports" class="btn esports-btn btn-lg text-white">
             <i class="fas fa-play me-2"></i>VIEW ROSTER
           </a>
+          <a href="/content_creation" class="btn btn-outline-light btn-lg" style="border-radius: 50px; padding: 15px 40px;">
+            <i class="fas fa-video me-2"></i>WATCH LIVE
+          </a>
           <a href="/join_us" class="btn btn-outline-light btn-lg" style="border-radius: 50px; padding: 15px 40px;">
-            <i class="fas fa-user-plus me-2"></i>JOIN SQUAD
+            <i class="fas fa-user-plus me-2"></i>JOIN TEAM
           </a>
         </div>
       </div>
@@ -175,172 +387,126 @@
   </div>
 </header>
 
-<!-- Main Content -->
-<main class="container mb-5">
-  
-  <!-- Gaming Gallery Carousel -->
-  <section class="mb-5">
-    <h2 class="text-center mb-4 fw-bold display-5">
-      <i class="fas fa-images me-3"></i>GAME HIGHLIGHTS
-    </h2>
-    <div class="carousel-container">
-      <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg" class="d-block w-100" alt="Gaming">
-            <div class="carousel-caption d-none d-md-block">
-              <h5>INTENSE COMPETITION</h5>
-              <p>Battle it out in high-stakes tournaments</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <img src="https://images.pexels.com/photos/4526481/pexels-photo-4526481.jpeg" class="d-block w-100" alt="Esports">
-            <div class="carousel-caption d-none d-md-block">
-              <h5>PROFESSIONAL ESPORTS</h5>
-              <p>Compete at the highest level of gaming</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <img src="https://images.pexels.com/photos/371924/pexels-photo-371924.jpeg" class="d-block w-100" alt="Community">
-            <div class="carousel-caption d-none d-md-block">
-              <h5>TEAM COMMUNITY</h5>
-              <p>Join a family of dedicated gamers</p>
-            </div>
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Games Section -->
-  <section class="mb-5">
-    <h2 class="text-center mb-4 fw-bold display-5">
-      <i class="fas fa-gamepad me-3"></i>FEATURED GAMES
+<!-- Games Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #0f0f1e, #1a1a2e);">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold display-4 text-white">
+      <i class="fas fa-gamepad me-3"></i>OUR ESPORTS DIVISIONS
     </h2>
     <div class="row g-4">
       <div class="col-md-4">
-        <div class="card game-card h-100">
-          <img src="https://images.pexels.com/photos/3115149/pexels-photo-3115149.jpeg?auto=compress&cs=tinysrgb&w=1280" class="card-img-top" alt="BGMI">
-          <div class="card-body text-center">
-            <div class="game-icon bg-warning text-white mb-3">
-              <i class="fas fa-crosshairs"></i>
-            </div>
-            <h4 class="card-title">BGMI</h4>
-            <p class="card-text">Battle Grounds Mobile India - Dominate the battlefield</p>
-            <div class="stat-number">15+</div>
-            <p class="text-muted">Active Players</p>
+        <div class="game-card h-100 p-4">
+          <div class="game-icon bg-warning text-white">
+            <i class="fas fa-crosshairs"></i>
+          </div>
+          <h3 class="text-white text-center mb-3">BGMI</h3>
+          <p class="text-white-50 text-center mb-4">Battle Grounds Mobile India - Elite squad tactics and survival expertise</p>
+          <div class="text-center">
+            <div class="stat-counter">15</div>
+            <p class="text-white-50">ACTIVE ROSTER</p>
+          </div>
+          <div class="text-center mt-3">
+            <a href="/bgmi" class="btn btn-warning text-dark">VIEW SQUAD</a>
           </div>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card game-card h-100">
-          <img src="https://images.pexels.com/photos/1199969/pexels-photo-1199969.jpeg?auto=compress&cs=tinysrgb&w=1280" class="card-img-top" alt="Valorant">
-          <div class="card-body text-center">
-            <div class="game-icon bg-danger text-white mb-3">
-              <i class="fas fa-shield-alt"></i>
-            </div>
-            <h4 class="card-title">VALORANT</h4>
-            <p class="card-text">Tactical FPS - Precision, strategy, teamwork</p>
-            <div class="stat-number">8+</div>
-            <p class="text-muted">Competitive Players</p>
+        <div class="game-card h-100 p-4">
+          <div class="game-icon bg-danger text-white">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3 class="text-white text-center mb-3">VALORANT</h3>
+          <p class="text-white-50 text-center mb-4">Tactical FPS - Precision shooting, strategic agent composition</p>
+          <div class="text-center">
+            <div class="stat-counter">8</div>
+            <p class="text-white-50">COMPETITIVE ROSTER</p>
+          </div>
+          <div class="text-center mt-3">
+            <a href="/valorant" class="btn btn-danger">VIEW SQUAD</a>
           </div>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card game-card h-100">
-          <img src="https://images.pexels.com/photos/937465/pexels-photo-937465.jpeg?auto=compress&cs=tinysrgb&w=1280" class="card-img-top" alt="COD">
-          <div class="card-body text-center">
-            <div class="game-icon bg-success text-white mb-3">
-              <i class="fas fa-gun"></i>
-            </div>
-            <h4 class="card-title">CALL OF DUTY MOBILE</h4>
-            <p class="card-text">Action FPS - Fast-paced combat action</p>
-            <div class="stat-number">12+</div>
-            <p class="text-muted">Skilled Players</p>
+        <div class="game-card h-100 p-4">
+          <div class="game-icon bg-success text-white">
+            <i class="fas fa-gun"></i>
+          </div>
+          <h3 class="text-white text-center mb-3">CALL OF DUTY MOBILE</h3>
+          <p class="text-white-50 text-center mb-4">Action FPS - Fast-paced combat and strategic gameplay</p>
+          <div class="text-center">
+            <div class="stat-counter">12</div>
+            <p class="text-white-50">SKILLED ROSTER</p>
+          </div>
+          <div class="text-center mt-3">
+            <a href="/cod_m" class="btn btn-success">VIEW SQUAD</a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Tournament Section -->
-  <section class="mb-5">
-    <h2 class="text-center mb-4 fw-bold display-5">
-      <i class="fas fa-trophy me-3"></i>UPCOMING TOURNAMENTS
+<!-- Tournaments Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #1a1a2e, #0f0f1e);">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold display-4 text-white">
+      <i class="fas fa-trophy me-3"></i>UPCOMING BATTLES
     </h2>
     <div class="row g-4">
       <div class="col-md-6">
         <div class="tournament-card">
-          <div class="d-flex align-items-center mb-3">
-            <div class="achievement-badge me-3">
+          <div class="d-flex align-items-center mb-4">
+            <div class="me-3" style="font-size: 3rem; color: #ff6b6b;">
               <i class="fas fa-fire"></i>
             </div>
             <div>
-              <h4 class="text-white mb-1">BGMI Championship</h4>
-              <p class="text-white-50 mb-0">March 25-26, 2024</p>
+              <h3 class="text-white mb-1">BGMI CHAMPIONSHIP</h3>
+              <p class="text-white-50 mb-0">April 15-16, 2024</p>
             </div>
           </div>
-          <p class="text-white-50">Join the ultimate BGMI battle royale tournament with massive prizes and glory.</p>
+          <p class="text-white-50 mb-4">The ultimate battle royale showdown with massive prize pool and glory.</p>
           <div class="d-flex justify-content-between align-items-center">
-            <span class="badge bg-success">OPEN REGISTRATION</span>
-            <button class="btn btn-outline-light btn-sm">Register Now</button>
+            <span class="badge bg-success">REGISTRATION OPEN</span>
+            <button class="btn esports-btn text-white btn-sm">REGISTER NOW</button>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="tournament-card">
-          <div class="d-flex align-items-center mb-3">
-            <div class="achievement-badge me-3">
+          <div class="d-flex align-items-center mb-4">
+            <div class="me-3" style="font-size: 3rem; color: #667eea;">
               <i class="fas fa-bolt"></i>
             </div>
             <div>
-              <h4 class="text-white mb-1">Valorant Sprint</h4>
-              <p class="text-white-50 mb-0">March 28, 2024</p>
+              <h3 class="text-white mb-1">VALORANT SPRINT</h3>
+              <p class="text-white-50 mb-0">April 20, 2024</p>
             </div>
           </div>
-          <p class="text-white-50">Quick-fire Valorant tournament designed for fast-paced competitive action.</p>
+          <p class="text-white-50 mb-4">Quick-fire tactical tournament designed for rapid competitive action.</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="badge bg-warning">LIMITED SLOTS</span>
-            <button class="btn btn-outline-light btn-sm">Register Now</button>
+            <button class="btn esports-btn text-white btn-sm">REGISTER NOW</button>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Stats Section -->
-  <section class="mb-5">
-    <h2 class="text-center mb-4 fw-bold display-5">
-      <i class="fas fa-chart-line me-3"></i>DETOX GAMING STATS
-    </h2>
-    <div class="row g-4 text-center">
-      <div class="col-md-3">
-        <div class="stat-number">150+</div>
-        <p class="text-muted">Total Members</p>
-      </div>
-      <div class="col-md-3">
-        <div class="stat-number">25+</div>
-        <p class="text-muted">Tournaments Won</p>
-      </div>
-      <div class="col-md-3">
-        <div class="stat-number">3</div>
-        <p class="text-muted">Active Games</p>
-      </div>
-      <div class="col-md-3">
-        <div class="stat-number">100%</div>
-        <p class="text-muted">Dedication</p>
-      </div>
+<!-- Call to Action -->
+<section class="py-5 text-center" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+  <div class="container">
+    <h2 class="text-white mb-4 display-4 fw-bold">READY TO DOMINATE?</h2>
+    <p class="text-white mb-5 fs-5">Join the elite gaming community and compete at the highest level</p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="/join_us" class="btn btn-light btn-lg" style="border-radius: 50px; padding: 15px 40px;">
+        <i class="fas fa-user-plus me-2"></i>BECOME A PRO
+      </a>
+      <a href="/content_creation" class="btn btn-outline-light btn-lg" style="border-radius: 50px; padding: 15px 40px;">
+        <i class="fas fa-video me-2"></i>WATCH STREAMS
+      </a>
     </div>
-  </section>
-
-</main>
+  </div>
+</section>
 
 {% endblock body %}
