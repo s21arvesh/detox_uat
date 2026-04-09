@@ -1,46 +1,281 @@
 {% extends 'base_auth.html' %}
-{% block title %} LOGIN {% endblock title %}
+{% block title %} PLAYER LOGIN - DETOX GAMING {% endblock title %}
 {% block body %}
 
 <style>
-  .login-container {
+  /* Epic Gaming Login Page */
+  .gaming-login-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #2d1b69 100%);
     padding: 2rem 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    overflow: hidden;
   }
-  .login-card {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    border: 1px solid #667eea;
-    max-width: 400px;
+  
+  /* Animated Background */
+  .gaming-login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(255, 107, 107, 0.2) 0%, transparent 50%);
+    animation: gamingGradient 20s ease-in-out infinite;
+  }
+  
+  @keyframes gamingGradient {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-30px, -30px) rotate(120deg); }
+    66% { transform: translate(30px, -20px) rotate(240deg); }
+  }
+  
+  /* Grid Background */
+  .grid-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(102, 126, 234, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(102, 126, 234, 0.1) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 15s linear infinite;
+  }
+  
+  @keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(60px, 60px); }
+  }
+  
+  /* Floating Gaming Elements */
+  .floating-gaming-element {
+    position: absolute;
+    opacity: 0.15;
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+  }
+  
+  /* Login Card */
+  .gaming-login-card {
+    background: linear-gradient(135deg, rgba(15, 15, 30, 0.9), rgba(26, 26, 46, 0.9));
+    border-radius: 25px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    max-width: 450px;
     width: 100%;
     padding: 0;
     overflow: hidden;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
+    position: relative;
+    z-index: 2;
   }
-  .login-header {
+  
+  .gaming-login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #667eea, #764ba2, transparent);
+    animation: scanLine 3s linear infinite;
+  }
+  
+  @keyframes scanLine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+  
+  .gaming-login-header {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
-    padding: 2rem;
+    padding: 3rem 2rem;
     text-align: center;
-  }
-  .login-header h1 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: bold;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  }
-  .login-body {
-    padding: 2rem;
-  }
-  .form-floating {
-    margin-bottom: 1.5rem;
     position: relative;
+    overflow: hidden;
+  }
+  
+  .gaming-login-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="gaming-grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(%23gaming-grid)"/></svg>');
+    opacity: 0.3;
+  }
+  
+  .gaming-login-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 2;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  @keyframes glow {
+    from { text-shadow: 0 4px 8px rgba(0,0,0,0.5), 0 0 20px rgba(102, 126, 234, 0.5); }
+    to { text-shadow: 0 4px 8px rgba(0,0,0,0.5), 0 0 30px rgba(102, 126, 234, 0.8); }
+  }
+  
+  .gaming-login-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .gaming-login-body {
+    padding: 3rem 2rem;
+    position: relative;
+  }
+  
+  .gaming-form-floating {
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  
+  .gaming-form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    border-radius: 15px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    color: white;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    width: 100%;
+  }
+  
+  .gaming-form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25), 0 0 20px rgba(102, 126, 234, 0.3);
+    color: white;
+    transform: translateY(-2px);
+  }
+  
+  .gaming-form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .gaming-form-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.9rem;
+  }
+  
+  .gaming-btn-login {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 15px;
+    padding: 1.2rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    width: 100%;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+  }
+  
+  .gaming-btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+  }
+  
+  .gaming-btn-login:hover::before {
+    left: 100%;
+  }
+  
+  .gaming-btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 45px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #764ba2, #667eea);
+  }
+  
+  .gaming-btn-login:active {
+    transform: translateY(-1px);
+  }
+  
+  .gaming-back-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .gaming-back-link:hover {
+    color: #764ba2;
+    text-decoration: none;
+    text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+  }
+  
+  .gaming-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #667eea;
+    animation: iconPulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes iconPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+  
+  /* Password Toggle */
+  .gaming-password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 10px;
+    padding: 0.5rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .gaming-password-toggle:hover {
+    background: rgba(102, 126, 234, 0.3);
+    border-color: #667eea;
   }
 
   /* Animated Alert Styles */
@@ -236,17 +471,34 @@
   }
 </style>
 
-<div class="login-container">
-  <div class="login-card">
-    <!-- Login Header -->
-    <div class="login-header">
+<!-- Epic Gaming Login Section -->
+<div class="gaming-login-container">
+  <div class="grid-bg"></div>
+  
+  <!-- Floating Gaming Elements -->
+  <div class="floating-gaming-element" style="top: 15%; left: 10%; font-size: 3rem;">
+    <i class="fas fa-gamepad"></i>
+  </div>
+  <div class="floating-gaming-element" style="top: 25%; right: 15%; font-size: 2.5rem; animation-delay: 1s;">
+    <i class="fas fa-trophy"></i>
+  </div>
+  <div class="floating-gaming-element" style="bottom: 35%; left: 20%; font-size: 2.8rem; animation-delay: 2s;">
+    <i class="fas fa-crosshairs"></i>
+  </div>
+  <div class="floating-gaming-element" style="bottom: 25%; right: 10%; font-size: 2.5rem; animation-delay: 3s;">
+    <i class="fas fa-fire"></i>
+  </div>
+  
+  <div class="gaming-login-card">
+    <!-- Gaming Login Header -->
+    <div class="gaming-login-header">
       <i class="fas fa-gamepad gaming-icon"></i>
-      <h1>DETOX GAMING</h1>
-      <p class="mb-0">PLAYER LOGIN</p>
+      <h1>PLAYER LOGIN</h1>
+      <p class="gaming-login-subtitle">ENTER THE BATTLEFIELD</p>
     </div>
 
-    <!-- Login Body -->
-    <div class="login-body">
+    <!-- Gaming Login Body -->
+    <div class="gaming-login-body">
       {% if messages %}
         {% for message in messages %}
           <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -259,25 +511,30 @@
         {% csrf_token %}
         
         <!-- Username Field -->
-        <div class="form-floating">
-          <input type="text" name="username" class="form-control" id="username" placeholder="Username" required autocomplete="off">
-          <label for="username">Username</label>
+        <div class="gaming-form-floating">
+          <input type="text" name="username" class="gaming-form-control" id="username" placeholder="Enter your username" required autocomplete="off">
         </div>
 
         <!-- Password Field -->
-        <div class="form-floating">
-          <input type="password" name="password" class="form-control" id="password" placeholder="Password" required autocomplete="new-password">
-          <label for="password">Password</label>
-          <button type="button" class="btn btn-outline-secondary position-absolute end-0 top-0 h-100 d-flex align-items-center" id="togglePassword" style="border-radius: 0 10px 10px 0; border: 2px solid #e9ecef; border-left: none;">
+        <div class="gaming-form-floating" style="position: relative;">
+          <input type="password" name="password" class="gaming-form-control" id="password" placeholder="Enter your password" required autocomplete="new-password">
+          <button type="button" class="gaming-password-toggle" id="togglePassword">
             <i class="fas fa-eye" id="eyeIcon"></i>
           </button>
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-login" id="loginBtn">
-          <i class="fas fa-sign-in-alt me-2"></i>LOGIN
+        <button type="submit" class="gaming-btn-login" id="loginBtn">
+          <i class="fas fa-sign-in-alt me-2"></i>DEPLOY TO BATTLE
         </button>
       </form>
+      
+      <!-- Back Link -->
+      <div class="text-center mt-4">
+        <a href="/" class="gaming-back-link">
+          <i class="fas fa-arrow-left me-2"></i>RETURN TO BASE
+        </a>
+      </div>
     </div>
   </div>
 </div>
@@ -323,7 +580,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Show loading state
             loginBtn.disabled = true;
-            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>LOGGING IN...';
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>DEPLOYING...';
             
             // Make API call using fetch
             fetch('/login/', {
@@ -336,20 +593,20 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Login successful - redirect to home page with sliding images
+                    // Login successful - redirect to home page
                     window.location.href = '/home/';
                 } else {
                     // Login failed - show error
-                    showAlert('error', data.error || 'Login failed. Please try again.');
+                    showAlert('error', data.error || 'Deployment failed. Check your credentials.');
                     loginBtn.disabled = false;
-                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>LOGIN';
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>DEPLOY TO BATTLE';
                 }
             })
             .catch(error => {
                 console.error('Login error:', error);
-                showAlert('error', 'An error occurred. Please try again.');
+                showAlert('error', 'System error. Retry deployment.');
                 loginBtn.disabled = false;
-                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>LOGIN';
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>DEPLOY TO BATTLE';
             });
         });
     }

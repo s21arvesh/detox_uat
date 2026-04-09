@@ -1,0 +1,353 @@
+{% extends 'base.html' %}
+{% block title %} Content Creation {% endblock title %}
+{% block body %}
+
+<style>
+  .hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 6rem 0;
+    margin-bottom: 3rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://via.placeholder.com/1920x400/1a1a2e/ffffff?text=CONTENT+CREATION') center/cover;
+    opacity: 0.1;
+    z-index: 0;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .platform-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    height: 100%;
+  }
+  
+  .platform-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+  
+  .platform-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+  }
+  
+  .stats-card {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    color: white;
+  }
+  
+  .content-preview {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .content-preview img {
+    transition: transform 0.3s ease;
+  }
+  
+  .content-preview:hover img {
+    transform: scale(1.05);
+  }
+  
+  .badge-live {
+    background: #ff0000;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+</style>
+
+<!-- Hero Section -->
+<header class="hero-section text-center">
+  <div class="container hero-content">
+    <h1 class="display-3 fw-bold mb-4">
+      <i class="fas fa-video me-3"></i>CONTENT CREATION
+    </h1>
+    <p class="lead mb-5">Streaming, Media & Gaming Content Production Hub</p>
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="d-flex justify-content-center gap-4 flex-wrap">
+          <div class="text-center">
+            <div class="stats-card">
+              <h3 class="fw-bold">56.4K</h3>
+              <p class="mb-0">Total Subscribers</p>
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="stats-card">
+              <h3 class="fw-bold">30.5K</h3>
+              <p class="mb-0">Total Followers</p>
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="stats-card">
+              <h3 class="fw-bold">2.3M</h3>
+              <p class="mb-0">Total Views</p>
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="stats-card">
+              <h3 class="fw-bold">450+</h3>
+              <p class="mb-0">Videos Created</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="container mb-5">
+  
+  <!-- Streaming Platforms -->
+  <section class="mb-5">
+    <h2 class="text-center mb-4 fw-bold">Our Streaming Platforms</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card platform-card h-100">
+          <div class="card-body text-center p-4">
+            <div class="platform-icon bg-danger text-white">
+              <i class="fab fa-youtube"></i>
+            </div>
+            <h5 class="card-title fw-bold">YouTube</h5>
+            <p class="text-muted mb-3">Main content platform</p>
+            <div class="mb-3">
+              <span class="badge-live me-2">LIVE</span>
+              <span class="text-muted">22.5K subscribers</span>
+            </div>
+            <p class="card-text">Daily gameplay highlights, tutorials, tournament coverage, and team vlogs</p>
+            <div class="d-flex gap-2 justify-content-center">
+              <button class="btn btn-danger btn-sm">Subscribe</button>
+              <button class="btn btn-outline-danger btn-sm">Watch Live</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card platform-card h-100">
+          <div class="card-body text-center p-4">
+            <div class="platform-icon bg-primary text-white">
+              <i class="fab fa-twitch"></i>
+            </div>
+            <h5 class="card-title fw-bold">Twitch</h5>
+            <p class="text-muted mb-3">Live streaming platform</p>
+            <div class="mb-3">
+              <span class="badge-live me-2">ONLINE</span>
+              <span class="text-muted">12.8K followers</span>
+            </div>
+            <p class="card-text">Interactive live streams, community games, squad scrims, and viewer participation</p>
+            <div class="d-flex gap-2 justify-content-center">
+              <button class="btn btn-primary btn-sm">Follow</button>
+              <button class="btn btn-outline-primary btn-sm">Join Stream</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card platform-card h-100">
+          <div class="card-body text-center p-4">
+            <div class="platform-icon bg-info text-white">
+              <i class="fab fa-instagram"></i>
+            </div>
+            <h5 class="card-title fw-bold">Instagram</h5>
+            <p class="text-muted mb-3">Social media content</p>
+            <div class="mb-3">
+              <span class="badge bg-info text-white me-2">ACTIVE</span>
+              <span class="text-muted">15.2K followers</span>
+            </div>
+            <p class="card-text">Short clips, behind-the-scenes content, tournament updates, and community engagement</p>
+            <div class="d-flex gap-2 justify-content-center">
+              <button class="btn btn-info btn-sm">Follow</button>
+              <button class="btn btn-outline-info btn-sm">View Content</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Content Across Games -->
+  <section class="mb-5">
+    <h2 class="text-center mb-4 fw-bold">Latest Content Across All Games</h2>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="content-preview">
+          <img src="https://via.placeholder.com/400x225/f39c12/ffffff?text=BGMI+Content" class="card-img-top" alt="BGMI Content">
+          <div class="card-body">
+            <h6 class="card-title">BGMI: 25 Kill Chicken Dinner</h6>
+            <p class="text-muted small">3 hours ago · 18K views</p>
+            <div class="d-flex justify-content-between">
+              <small class="text-success"><i class="fas fa-thumbs-up"></i> 2.1K</small>
+              <small class="text-muted"><i class="fas fa-comment"></i> 156</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="content-preview">
+          <img src="https://via.placeholder.com/400x225/dc3545/ffffff?text=Valorant+Content" class="card-img-top" alt="Valorant Content">
+          <div class="card-body">
+            <h6 class="card-title">Valorant: Jett 1v5 Clutch Ace</h6>
+            <p class="text-muted small">4 hours ago · 15K views</p>
+            <div class="d-flex justify-content-between">
+              <small class="text-success"><i class="fas fa-thumbs-up"></i> 1.8K</small>
+              <small class="text-muted"><i class="fas fa-comment"></i> 124</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="content-preview">
+          <img src="https://via.placeholder.com/400x225/28a745/ffffff?text=CODM+Content" class="card-img-top" alt="CODM Content">
+          <div class="card-body">
+            <h6 class="card-title">COD Mobile: 30 Kill Streak</h6>
+            <p class="text-muted small">2 hours ago · 12K views</p>
+            <div class="d-flex justify-content-between">
+              <small class="text-success"><i class="fas fa-thumbs-up"></i> 1.2K</small>
+              <small class="text-muted"><i class="fas fa-comment"></i> 89</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="content-preview">
+          <img src="https://via.placeholder.com/400x225/667eea/ffffff?text=Tournament+Content" class="card-img-top" alt="Tournament Content">
+          <div class="card-body">
+            <h6 class="card-title">Tournament Highlights Compilation</h6>
+            <p class="text-muted small">1 day ago · 45K views</p>
+            <div class="d-flex justify-content-between">
+              <small class="text-success"><i class="fas fa-thumbs-up"></i> 5.8K</small>
+              <small class="text-muted"><i class="fas fa-comment"></i> 412</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Schedule -->
+  <section class="mb-5">
+    <h2 class="text-center mb-4 fw-bold">Content Schedule</h2>
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Content Type</th>
+                    <th>Platform</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Monday</strong></td>
+                    <td>7:00 PM</td>
+                    <td>Live Stream - Squad Practice</td>
+                    <td><span class="badge bg-primary">Twitch</span></td>
+                    <td><span class="badge bg-success">Regular</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tuesday</strong></td>
+                    <td>8:00 PM</td>
+                    <td>Tutorial Video</td>
+                    <td><span class="badge bg-danger">YouTube</span></td>
+                    <td><span class="badge bg-success">Regular</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Wednesday</strong></td>
+                    <td>6:00 PM</td>
+                    <td>Tournament Match</td>
+                    <td><span class="badge bg-primary">Twitch</span></td>
+                    <td><span class="badge bg-warning">Special</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Thursday</strong></td>
+                    <td>7:30 PM</td>
+                    <td>Community Games</td>
+                    <td><span class="badge bg-primary">Twitch</span></td>
+                    <td><span class="badge bg-success">Regular</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Friday</strong></td>
+                    <td>8:00 PM</td>
+                    <td>Highlights Compilation</td>
+                    <td><span class="badge bg-danger">YouTube</span></td>
+                    <td><span class="badge bg-success">Regular</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Weekend</strong></td>
+                    <td>Varies</td>
+                    <td>Tournament Coverage</td>
+                    <td><span class="badge bg-danger">YouTube</span></td>
+                    <td><span class="badge bg-info">Flexible</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="text-center py-5">
+    <div class="bg-gradient rounded-3 p-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+      <h2 class="text-white fw-bold mb-3">Want to Collaborate?</h2>
+      <p class="text-white mb-4">Join our content creation team or sponsor our streams</p>
+      <div class="d-flex gap-3 justify-content-center">
+        <a href="/join_us" class="btn btn-light btn-lg">Join Our Team</a>
+        <a href="#" class="btn btn-outline-light btn-lg">Sponsor Us</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+{% endblock body %}

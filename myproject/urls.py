@@ -18,10 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from home import views as home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
+    path('esports/', include('esports.urls')),
+    path('bgmi/', include('esports.bgmi_urls')),
+    path('valorant/', include('esports.valorant_urls')),
+    path('cod_m', include('esports.codm_urls')),
+    path('content_creation', include('esports.content_urls')),
+    path('logout', home.logout_view, name='logout'),
 ]
 
 # Serve static files during development

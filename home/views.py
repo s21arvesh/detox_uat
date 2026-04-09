@@ -14,106 +14,33 @@ def index(request):
 def home(request):
     return render(request, 'home.html')
 
-def esports(request):
-    return render(request, 'esports.html')
-
 def join_us(request):
     return render(request, 'joinus.html')
 
-def bgmi(request):
-    return render(request, 'bgmi.html')
-
-def valorant(request):
-    return render(request, 'valorant.html')
-
-def cod_m(request):
-    return render(request, 'codm.html')
-
 def login_view(request):
+    # Clear any existing messages to prevent accumulation
+    messages.get_messages(request).used = True
+    
     if request.method == 'POST':
         # Check if this is an AJAX request
-        
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             username = request.POST.get('username')
             password = request.POST.get('password')
 
-            print(f"Username: {username}, Password: {password}")
-            
-            # Test database connection
-            try:
-                with connection.cursor() as cursor:
-                    cursor.execute("SELECT 1")
-                    print("MySQL database connection successful!")
-                    
-                    # Debug: Show all table structure
-                    cursor.execute("DESCRIBE users")
-                    columns = cursor.fetchall()
-                    print("=== USERS TABLE COLUMNS ===")
-                    for col in columns:
-                        print(f"Column: {col[0]}")
-                    print("========================")
-            except Exception as e:
-                print(f"MySQL connection error: {e}")
-                return JsonResponse({'success': False, 'error': 'Database connection failed.'})
-            
-            # Check if the input is an email address
-            if '@' in username:
-                print(f"Email login attempt: {username}")
-                # Single query to validate both email and password
-                try:
-                    with connection.cursor() as cursor:
-                        cursor.execute("SELECT id, user, password FROM users WHERE user = %s AND password = %s", [username, password])
-                        columns = [col[0] for col in cursor.description]
-                        row = cursor.fetchone()
-                        user_data = dict(zip(columns, row)) if row else None
-                        print(f"User dataaaa: {user_data}")
-                        if user_data:
-                            print(f"Retrieved username: {user_data['user']}")
-                            # User found and password matches - create session directly
-                            if user_data['password'] == password:
-                                # Create session manually since we're using custom database
-                                request.session['user_id'] = user_data['id']
-                                request.session['username'] = user_data['user']
-                                request.session['is_authenticated'] = True
-                                request.session.save()
-                                
-                                return JsonResponse({'success': True, 'message': f'Welcome back, {user_data["user"]}!'})
-                            else:
-                                return JsonResponse({'success': False, 'error': 'Authentication failed.'})
-                        else:
-                            return JsonResponse({'success': False, 'error': 'Invalid email or password.'})
-                except Exception as e:
-                    print(f"Database query error: {e}")
-                    return JsonResponse({'success': False, 'error': 'Database query failed.'})
+            # Temporary test login without database
+            if username == 'venom@2021' and password == 'venom123':
+                # Create session manually
+                request.session['user_id'] = 1
+                request.session['username'] = username
+                request.session['is_authenticated'] = True
+                request.session.save()
+                
+                return JsonResponse({'success': True, 'message': f'Welcome back, {username}!'})
             else:
-                print(f"Username login attempt: {username}")
-                # Single query to validate both username and password
-                try:
-                    with connection.cursor() as cursor:
-                        cursor.execute("SELECT id, user, password FROM users WHERE user = %s AND password = %s", [username, password])
-                        user_data = cursor.fetchone()
-                        if user_data:
-                            # User found and password matches - create session directly
-                            user_id, db_username, db_password = user_data
-                            print(f"User found: {db_username}, ID: {user_id}")
-                            
-                            # Create session manually since we're using custom database
-                            request.session['user_id'] = user_id
-                            request.session['username'] = db_username
-                            request.session['is_authenticated'] = True
-                            request.session.save()
-                            
-                            print("Custom login successful!")
-                            return JsonResponse({'success': True, 'message': f'Welcome back, {db_username}!'})
-                        else:
-                            return JsonResponse({'success': False, 'error': 'Invalid username or password.'})
-                except Exception as e:
-                    print(f"Database query error: {e}")
-                    return JsonResponse({'success': False, 'error': 'Database query failed.'})
+                return JsonResponse({'success': False, 'error': 'Invalid username or password.'})
         else:
             # Traditional form submission (non-AJAX)
             form = AuthenticationForm(request, data=request.POST)
-            print(form)
             if form.is_valid():
                 username = form.cleaned_data.get('username')
                 password = form.cleaned_data.get('password')
@@ -130,9 +57,11 @@ def login_view(request):
     return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
+    # Clear custom session
+    request.session.flush()
     logout(request)
     messages.info(request, 'You have been logged out.')
-    return redirect('home')
+    return redirect('login')
 
 def signup_view(request):
     if request.method == 'POST':
@@ -143,8 +72,7 @@ def signup_view(request):
         favorite_game = request.POST.get('favorite_game')
         experience_level = request.POST.get('experience_level')
         
-        print(f"Signup attempt - Username: {username}, Email: {email}, Game: {favorite_game}, Experience: {experience_level}")
-        
+                
         # Validate form data
         if not all([username, email, password, favorite_game, experience_level]):
             return JsonResponse({'success': False, 'error': 'All fields are required.'})
@@ -156,23 +84,33 @@ def signup_view(request):
             return JsonResponse({'success': False, 'error': 'Please enter a valid email address.'})
         
         try:
-            with connection.cursor() as cursor:
-                # Check if username or email already exists
-                cursor.execute("SELECT id FROM users WHERE user = %s OR user = %s", [username, email])
-                if cursor.fetchone():
-                    return JsonResponse({'success': False, 'error': 'Username or email already exists.'})
-                
-                # Insert new user
-                cursor.execute("""
-                    INSERT INTO users (user, password, favorite_game, experience_level, created_at)
-                    VALUES (%s, %s, %s, %s, NOW())
-                """, [email, password, favorite_game, experience_level])
-                
-                print(f"New user created: {username}")
-                return JsonResponse({'success': True, 'message': 'Account created successfully! Please sign in.'})
+            # Check if username or email already exists in Django User model
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({'success': False, 'error': 'Username already exists.'})
+            
+            if User.objects.filter(email=email).exists():
+                return JsonResponse({'success': False, 'error': 'Email already exists.'})
+            
+            # Create new Django User
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password
+            )
+            
+            # Store additional info in custom database if needed
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute("""
+                        INSERT INTO users (user, password, favorite_game, experience_level, created_at)
+                        VALUES (%s, %s, %s, %s, NOW())
+                    """, [email, password, favorite_game, experience_level])
+            except Exception as db_error:
+                # Continue even if custom database fails
+                pass
+            return JsonResponse({'success': True, 'message': 'Account created successfully! Please sign in.'})
                 
         except Exception as e:
-            print(f"Database error during signup: {e}")
             return JsonResponse({'success': False, 'error': 'Registration failed. Please try again.'})
     
     return JsonResponse({'success': False, 'error': 'Invalid request method.'})
