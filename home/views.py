@@ -12,6 +12,9 @@ def index(request):
     return render(request, 'index.html')
 
 def home(request):
+    print(f"Home view called")
+    print(f"Session data: {dict(request.session)}")
+    print(f"Is authenticated: {request.session.get('is_authenticated')}")
     return render(request, 'home.html')
 
 def join_us(request):

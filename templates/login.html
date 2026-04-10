@@ -100,12 +100,11 @@
   }
   
   .gaming-login-header {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    padding: 3rem 2rem;
     text-align: center;
+    padding: 3rem 2rem 2rem;
     position: relative;
-    overflow: hidden;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border-bottom: 1px solid rgba(102, 126, 234, 0.2);
   }
   
   .gaming-login-header::before {
@@ -120,30 +119,25 @@
   }
   
   .gaming-login-header h1 {
-    margin: 0;
+    color: white;
     font-size: 2.5rem;
-    font-weight: 900;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    text-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    position: relative;
-    z-index: 2;
-    animation: glow 2s ease-in-out infinite alternate;
-  }
-  
-  @keyframes glow {
-    from { text-shadow: 0 4px 8px rgba(0,0,0,0.5), 0 0 20px rgba(102, 126, 234, 0.5); }
-    to { text-shadow: 0 4px 8px rgba(0,0,0,0.5), 0 0 30px rgba(102, 126, 234, 0.8); }
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .gaming-login-subtitle {
+    color: rgba(255, 255, 255, 0.7);
     font-size: 1rem;
-    opacity: 0.9;
-    margin-top: 0.5rem;
+    margin-bottom: 0;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    position: relative;
-    z-index: 2;
+    letter-spacing: 0.2em;
+    font-weight: 500;
   }
   
   .gaming-login-body {
