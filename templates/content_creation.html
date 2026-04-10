@@ -3,13 +3,37 @@
 {% block body %}
 
 <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: #0a0a0f;
+    font-family: 'Orbitron', 'Rajdhani', monospace;
+    overflow-x: hidden;
+  }
+  
   .hero-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: 
+      radial-gradient(ellipse at top, #667eea 0%, #764ba2 40%, #000000 100%),
+      linear-gradient(135deg, #1a0033 0%, #2d0047 40%, #4a0066 100%),
+      radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(118, 75, 162, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 15% 85%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
     padding: 6rem 0;
     margin-bottom: 3rem;
     color: white;
     position: relative;
     overflow: hidden;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    border-bottom: 4px solid #667eea;
+    box-shadow: 
+      0 0 100px rgba(102, 126, 234, 0.3),
+      inset 0 0 50px rgba(118, 75, 162, 0.1);
   }
   
   .hero-section::before {
@@ -19,28 +43,504 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('https://via.placeholder.com/1920x400/1a1a2e/ffffff?text=CONTENT+CREATION') center/cover;
-    opacity: 0.1;
-    z-index: 0;
+    background: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(102, 126, 234, 0.03) 2px,
+        rgba(102, 126, 234, 0.03) 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(118, 75, 162, 0.03) 2px,
+        rgba(118, 75, 162, 0.03) 4px
+      ),
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(102, 126, 234, 0.1)" stroke-width="1"/><circle cx="30" cy="30" r="2" fill="rgba(118, 75, 162, 0.2)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  
+  .hero-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+    pointer-events: none;
   }
   
   .hero-content {
     position: relative;
+    z-index: 10;
+    text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+  }
+  
+  .glitch-text {
+    position: relative;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 
+      0.05em 0 0 #667eea, 
+      -0.025em -0.05em 0 #764ba2, 
+      0.025em 0.05em 0 #8e44ad,
+      0 0 30px rgba(102, 126, 234, 0.8);
+    animation: glitch 3s infinite;
+  }
+  
+  .glitch-text::before,
+  .glitch-text::after {
+    content: 'CONTENT CREATORS';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+  }
+  
+  .glitch-text::before {
+    animation: glitch-1 0.5s infinite;
+    color: #667eea;
+    z-index: -1;
+  }
+  
+  .glitch-text::after {
+    animation: glitch-2 0.5s infinite;
+    color: #764ba2;
+    z-index: -2;
+  }
+  
+  .stat-card {
+    background: rgba(102, 126, 234, 0.1);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+    border-color: #667eea;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  }
+  
+  .cyber-button {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 30px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 
+      0 0 20px rgba(102, 126, 234, 0.6),
+      inset 0 0 10px rgba(118, 75, 162, 0.3);
+  }
+  
+  .cyber-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 5px 25px rgba(102, 126, 234, 0.8),
+      inset 0 0 15px rgba(118, 75, 162, 0.5);
+  }
+  
+  /* Particle Effects */
+  .particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     z-index: 1;
   }
   
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #667eea;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+    animation: particle-float 10s infinite linear;
+  }
+  
+  @keyframes particle-float {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+  
+  /* Grid Background - Matching Home Page */
+  .grid-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(102, 126, 234, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(102, 126, 234, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 10s linear infinite;
+  }
+  
+  @keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+  
+  /* Floating Elements - Matching Home Page */
+  .floating-element {
+    position: absolute;
+    opacity: 0.1;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+  }
+  
+  /* Particles Animation */
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(102, 126, 234, 0.8);
+    border-radius: 50%;
+    animation: particleFloat 8s infinite ease-in-out;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.6);
+  }
+  
+  @keyframes particleFloat {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100px) translateX(50px);
+      opacity: 0;
+    }
+  }
+  
+  .particle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* Enhanced Content Cards */
+  .content-card {
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+    border: 2px solid transparent;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    position: relative;
+    backdrop-filter: blur(10px);
+    color: white;
+  }
+  
+  .content-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .content-card:hover::before {
+    opacity: 1;
+  }
+  
+  .content-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    border-color: #667eea;
+    box-shadow: 
+      0 25px 50px rgba(102, 126, 234, 0.3),
+      0 0 30px rgba(102, 126, 234, 0.2);
+  }
+  
+  /* Fix text colors */
+  .text-white { color: white !important; }
+  .text-muted { color: #a8a8b8 !important; }
+  .card-title { color: white !important; }
+  .card-text { color: #a8a8b8 !important; }
+  
+  /* Enhanced Streaming Section Styles */
+  .streaming-card {
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+  
+  .streaming-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2) !important;
+  }
+  
+  .live-indicator, .online-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .live-indicator {
+    background: rgba(255, 0, 0, 0.2);
+    border: 1px solid rgba(255, 0, 0, 0.4);
+    color: #ff4444;
+  }
+  
+  .online-indicator {
+    background: rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(102, 126, 234, 0.4);
+    color: #667eea;
+  }
+  
+  .live-dot, .online-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  
+  .live-dot {
+    background: #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+  }
+  
+  .online-dot {
+    background: #667eea;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+  }
+  
+  .subscriber-count, .follower-count {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  .viewer-count {
+    background: rgba(255, 70, 85, 0.2);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ff4655;
+    border: 1px solid rgba(255, 70, 85, 0.3);
+  }
+  
+  .cyber-outline-button {
+    background: transparent;
+    border: 2px solid #667eea;
+    color: #667eea;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .cyber-outline-button:hover {
+    background: #667eea;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  }
+  
+  .stream-stats {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+  }
+  
+  .stat-item:hover {
+    color: #667eea;
+    transform: translateY(-2px);
+  }
+  
+  .stat-item i {
+    font-size: 0.9rem;
+  }
+  
+  .glitch-text {
+    position: relative;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 
+      0.05em 0 0 #667eea, 
+      -0.025em -0.05em 0 #764ba2, 
+      0.025em 0.05em 0 #8e44ad,
+      0 0 30px rgba(102, 126, 234, 0.8);
+    animation: glitch 3s infinite;
+  }
+  
+  .glitch-text::before,
+  .glitch-text::after {
+    content: 'CONTENT CREATION';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+  }
+  
+  .glitch-text::before {
+    animation: glitch-1 0.5s infinite;
+    color: #667eea;
+    z-index: -1;
+  }
+  
+  .glitch-text::after {
+    animation: glitch-2 0.5s infinite;
+    color: #764ba2;
+    z-index: -2;
+  }
+  
+  @keyframes glitch {
+    0%, 100% { 
+      text-shadow: 
+        0.05em 0 0 #667eea, 
+        -0.025em -0.05em 0 #764ba2, 
+        0.025em 0.05em 0 #8e44ad,
+        0 0 30px rgba(102, 126, 234, 0.8);
+      transform: translate(0);
+    }
+    25% { 
+      text-shadow: 
+        -0.05em -0.025em 0 #667eea, 
+        0.025em 0.025em 0 #764ba2, 
+        -0.05em -0.05em 0 #8e44ad,
+        0 0 25px rgba(118, 75, 162, 0.8);
+      transform: translate(-2px, 2px);
+    }
+    50% { 
+      text-shadow: 
+        0.025em 0.05em 0 #667eea, 
+        0.05em 0 0 #764ba2, 
+        0 -0.05em 0 #8e44ad,
+        0 0 35px rgba(142, 68, 173, 0.8);
+      transform: translate(2px, -2px);
+    }
+    75% { 
+      text-shadow: 
+        -0.025em 0 0 #667eea, 
+        -0.025em -0.025em 0 #764ba2, 
+        -0.025em -0.05em 0 #8e44ad,
+        0 0 40px rgba(102, 126, 234, 0.8);
+      transform: translate(-1px, 1px);
+    }
+  }
+  
+  @keyframes glitch-1 {
+    0%, 100% { clip: rect(42px, 9999px, 44px, 0); }
+    25% { clip: rect(12px, 9999px, 59px, 0); }
+    50% { clip: rect(48px, 9999px, 19px, 0); }
+    75% { clip: rect(85px, 9999px, 73px, 0); }
+  }
+  
+  @keyframes glitch-2 {
+    0%, 100% { clip: rect(65px, 9999px, 100px, 0); }
+    25% { clip: rect(52px, 9999px, 74px, 0); }
+    50% { clip: rect(79px, 9999px, 85px, 0); }
+    75% { clip: rect(91px, 9999px, 43px, 0); }
+  }
+  
   .platform-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: none;
+    transition: all 0.4s ease;
+    border: 2px solid rgba(102, 126, 234, 0.2);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.2),
+      inset 0 0 20px rgba(102, 126, 234, 0.05);
     height: 100%;
+    position: relative;
+    background: linear-gradient(135deg, rgba(10, 10, 15, 0.9) 0%, rgba(26, 26, 46, 0.9) 100%);
+    backdrop-filter: blur(10px);
+    color: white;
+  }
+  
+  .platform-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .platform-card:hover::before {
+    opacity: 1;
   }
   
   .platform-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    transform: translateY(-15px) scale(1.02);
+    border-color: #667eea;
+    box-shadow: 
+      0 20px 40px rgba(102, 126, 234, 0.3),
+      inset 0 0 30px rgba(102, 126, 234, 0.2);
   }
   
   .platform-icon {
@@ -52,22 +552,106 @@
     justify-content: center;
     margin: 0 auto 1.5rem;
     font-size: 2rem;
+    border: 3px solid #667eea;
+    box-shadow: 
+      0 0 20px rgba(102, 126, 234, 0.6),
+      inset 0 0 15px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .platform-icon:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 
+      0 0 30px rgba(102, 126, 234, 1),
+      inset 0 0 20px rgba(102, 126, 234, 0.5);
+  }
+  
+  .platform-icon::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #667eea;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
   
   .stats-card {
-    background: rgba(255,255,255,0.1);
-    border: 2px solid rgba(255,255,255,0.2);
+    background: 
+      linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%),
+      rgba(0, 0, 0, 0.8);
+    border: 2px solid rgba(102, 126, 234, 0.3);
     border-radius: 10px;
     padding: 1.5rem;
     text-align: center;
     backdrop-filter: blur(10px);
     color: white;
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.3),
+      inset 0 0 20px rgba(102, 126, 234, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
+    animation: scan-header 4s linear infinite;
+  }
+  
+  @keyframes scan-header {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+  
+  .stats-card h3 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+    animation: number-glow 2s ease-in-out infinite alternate;
+  }
+  
+  @keyframes number-glow {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.3); }
   }
   
   .content-preview {
     border-radius: 10px;
     overflow: hidden;
     position: relative;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.2),
+      inset 0 0 20px rgba(102, 126, 234, 0.05);
+    background: linear-gradient(135deg, rgba(10, 10, 15, 0.9) 0%, rgba(26, 26, 46, 0.9) 100%);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+  
+  .content-preview:hover {
+    border-color: #667eea;
+    box-shadow: 
+      0 20px 40px rgba(102, 126, 234, 0.3),
+      inset 0 0 30px rgba(102, 126, 234, 0.2);
   }
   
   .content-preview img {
@@ -86,6 +670,8 @@
     font-size: 0.8rem;
     font-weight: bold;
     animation: pulse 2s infinite;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
   }
   
   @keyframes pulse {
@@ -93,12 +679,127 @@
     50% { opacity: 0.7; }
     100% { opacity: 1; }
   }
+  
+  .cyber-button {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 30px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 
+      0 0 20px rgba(102, 126, 234, 0.6),
+      inset 0 0 10px rgba(102, 126, 234, 0.3);
+  }
+  
+  .cyber-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .cyber-button:hover::before {
+    left: 100%;
+  }
+  
+  .cyber-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 5px 25px rgba(102, 126, 234, 0.8),
+      inset 0 0 15px rgba(102, 126, 234, 0.5);
+  }
+  
+  .badge {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+  }
+  
+  .badge.bg-danger { 
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.8), rgba(220, 53, 69, 0.6)) !important;
+    border-color: #dc3545;
+    color: #fff;
+  }
+  
+  .badge.bg-primary { 
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.8), rgba(0, 123, 255, 0.6)) !important;
+    border-color: #007bff;
+    color: #fff;
+  }
+  
+  .badge.bg-info { 
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.8), rgba(23, 162, 184, 0.6)) !important;
+    border-color: #17a2b8;
+    color: #fff;
+  }
+  
+  .badge.bg-success { 
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.8), rgba(40, 167, 69, 0.6)) !important;
+    border-color: #28a745;
+    color: #fff;
+  }
+  
+  .badge.bg-warning { 
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.8), rgba(255, 193, 7, 0.6)) !important;
+    border-color: #ffc107;
+    color: #fff;
+  }
 </style>
 
 <!-- Hero Section -->
 <header class="hero-section text-center">
+  <div class="grid-bg"></div>
+  
+  <!-- Enhanced Floating Elements -->
+  <div class="floating-element" style="top: 10%; left: 10%; font-size: 3rem;">
+    <i class="fas fa-video"></i>
+  </div>
+  <div class="floating-element" style="top: 20%; right: 15%; font-size: 2rem; animation-delay: 1s;">
+    <i class="fas fa-trophy"></i>
+  </div>
+  <div class="floating-element" style="bottom: 30%; left: 20%; font-size: 2.5rem; animation-delay: 2s;">
+    <i class="fas fa-camera"></i>
+  </div>
+  <div class="floating-element" style="bottom: 20%; right: 10%; font-size: 2rem; animation-delay: 3s;">
+    <i class="fas fa-fire"></i>
+  </div>
+  <div class="floating-element" style="top: 15%; left: 25%; font-size: 1.8rem; animation-delay: 1.5s;">
+    <i class="fas fa-crown"></i>
+  </div>
+  <div class="floating-element" style="top: 35%; right: 8%; font-size: 2.2rem; animation-delay: 2.5s;">
+    <i class="fas fa-medal"></i>
+  </div>
+  
+  <!-- Animated Particles -->
+  <div class="particle-container">
+    <div class="particle" style="top: 20%; left: 30%; animation-delay: 0s;"></div>
+    <div class="particle" style="top: 40%; left: 60%; animation-delay: 1s;"></div>
+    <div class="particle" style="top: 60%; left: 20%; animation-delay: 2s;"></div>
+    <div class="particle" style="top: 30%; left: 80%; animation-delay: 3s;"></div>
+    <div class="particle" style="top: 70%; left: 50%; animation-delay: 4s;"></div>
+    <div class="particle" style="top: 15%; left: 70%; animation-delay: 5s;"></div>
+    <div class="particle" style="top: 50%; left: 40%; animation-delay: 6s;"></div>
+    <div class="particle" style="top: 80%; left: 30%; animation-delay: 7s;"></div>
+  </div>
+  
   <div class="container hero-content">
-    <h1 class="display-3 fw-bold mb-4">
+    <h1 class="display-3 fw-bold mb-4 glitch-text">
       <i class="fas fa-video me-3"></i>CONTENT CREATION
     </h1>
     <p class="lead mb-5">Streaming, Media & Gaming Content Production Hub</p>
@@ -138,51 +839,171 @@
 <!-- Main Content -->
 <main class="container mb-5">
   
-  <!-- Streaming Platforms -->
+  <!-- Enhanced Streaming Platforms -->
   <section class="mb-5">
-    <h2 class="text-center mb-4 fw-bold">Our Streaming Platforms</h2>
+    <div class="text-center mb-5">
+      <h2 class="fw-bold mb-3 glitch-text">OUR STREAMING PLATFORMS</h2>
+      <p class="lead text-muted">Connect with us across multiple platforms for exclusive content and live interactions</p>
+    </div>
+    
     <div class="row g-4">
       <div class="col-md-4">
-        <div class="card platform-card h-100">
-          <div class="card-body text-center p-4">
-            <div class="platform-icon bg-danger text-white">
-              <i class="fab fa-youtube"></i>
+        <div class="card streaming-card border-0 shadow-lg h-100" style="background: linear-gradient(135deg, rgba(255, 70, 85, 0.1), rgba(220, 38, 38, 0.05)); border: 2px solid rgba(255, 70, 85, 0.2);">
+          <div class="card-body p-4">
+            <div class="text-center mb-4">
+              <div class="platform-icon mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, #ff0000, #cc0000); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);">
+                <i class="fab fa-youtube fa-2x text-white"></i>
+              </div>
+              <h5 class="card-title fw-bold mb-1" style="color: white;">YouTube</h5>
+              <p class="text-muted mb-3">Main content platform</p>
+              <div class="mb-3">
+                <span class="live-indicator">
+                  <span class="live-dot"></span>
+                  LIVE NOW
+                </span>
+                <div class="subscriber-count mt-2">22.5K subscribers</div>
+              </div>
+              <div class="viewer-count mx-auto" style="width: fit-content;">
+                <i class="fas fa-eye"></i> 3.2K watching
+              </div>
             </div>
-            <h5 class="card-title fw-bold">YouTube</h5>
-            <p class="text-muted mb-3">Main content platform</p>
-            <div class="mb-3">
-              <span class="badge-live me-2">LIVE</span>
-              <span class="text-muted">22.5K subscribers</span>
+            
+            <p class="card-text mb-4 text-center" style="color: rgba(255, 255, 255, 0.8);">
+              Daily gameplay highlights • Tournament coverage • Team vlogs • Tutorial series
+            </p>
+            
+            <div class="d-flex gap-2 mb-3">
+              <button class="cyber-button flex-fill" style="background: linear-gradient(135deg, #ff4655, #dc2626);">
+                <i class="fas fa-bell me-2"></i>Subscribe Now
+              </button>
+              <button class="btn cyber-outline-button flex-fill" style="border-color: #ff4655; color: #ff4655;">
+                <i class="fas fa-play me-2"></i>Watch Live
+              </button>
             </div>
-            <p class="card-text">Daily gameplay highlights, tutorials, tournament coverage, and team vlogs</p>
-            <div class="d-flex gap-2 justify-content-center">
-              <button class="btn btn-danger btn-sm">Subscribe</button>
-              <button class="btn btn-outline-danger btn-sm">Watch Live</button>
+            
+            <div class="stream-stats">
+              <div class="stat-item">
+                <i class="fas fa-calendar"></i>
+                <span>Daily Uploads</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-trophy"></i>
+                <span>Esports</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-film"></i>
+                <span>HD Quality</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
       
       <div class="col-md-4">
-        <div class="card platform-card h-100">
-          <div class="card-body text-center p-4">
-            <div class="platform-icon bg-primary text-white">
-              <i class="fab fa-twitch"></i>
+        <div class="card streaming-card border-0 shadow-lg h-100" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.05)); border: 2px solid rgba(102, 126, 234, 0.2);">
+          <div class="card-body p-4">
+            <div class="text-center mb-4">
+              <div class="platform-icon mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, #9146ff, #7c3aed); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 0 30px rgba(145, 70, 255, 0.5);">
+                <i class="fab fa-twitch fa-2x text-white"></i>
+              </div>
+              <h5 class="card-title fw-bold mb-1" style="color: white;">Twitch</h5>
+              <p class="text-muted mb-3">Live streaming platform</p>
+              <div class="mb-3">
+                <span class="online-indicator">
+                  <span class="online-dot"></span>
+                  ONLINE
+                </span>
+                <div class="follower-count mt-2">12.8K followers</div>
+              </div>
+              <div class="viewer-count mx-auto" style="width: fit-content; background: rgba(102, 126, 234, 0.2); color: #667eea; border-color: rgba(102, 126, 234, 0.3);">
+                <i class="fas fa-eye"></i> 856 watching
+              </div>
             </div>
-            <h5 class="card-title fw-bold">Twitch</h5>
-            <p class="text-muted mb-3">Live streaming platform</p>
-            <div class="mb-3">
-              <span class="badge-live me-2">ONLINE</span>
-              <span class="text-muted">12.8K followers</span>
+            
+            <p class="card-text mb-4 text-center" style="color: rgba(255, 255, 255, 0.8);">
+              Interactive live streams • Community games • Squad scrims • Viewer participation
+            </p>
+            
+            <div class="d-flex gap-2 mb-3">
+              <button class="cyber-button flex-fill" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                <i class="fas fa-user-plus me-2"></i>Follow Channel
+              </button>
+              <button class="btn cyber-outline-button flex-fill" style="border-color: #667eea; color: #667eea;">
+                <i class="fas fa-sign-in-alt me-2"></i>Join Stream
+              </button>
             </div>
-            <p class="card-text">Interactive live streams, community games, squad scrims, and viewer participation</p>
-            <div class="d-flex gap-2 justify-content-center">
-              <button class="btn btn-primary btn-sm">Follow</button>
-              <button class="btn btn-outline-primary btn-sm">Join Stream</button>
+            
+            <div class="stream-stats">
+              <div class="stat-item">
+                <i class="fas fa-clock"></i>
+                <span>Live Daily</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-microphone"></i>
+                <span>Voice Chat</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-gamepad"></i>
+                <span>Interactive</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      
+      <div class="col-md-4">
+        <div class="card streaming-card border-0 shadow-lg h-100" style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 106, 0.05)); border: 2px solid rgba(0, 255, 136, 0.2);">
+          <div class="card-body p-4">
+            <div class="text-center mb-4">
+              <div class="platform-icon mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, #00ff88, #00cc6a); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);">
+                <i class="fab fa-discord fa-2x text-white"></i>
+              </div>
+              <h5 class="card-title fw-bold mb-1" style="color: white;">Discord</h5>
+              <p class="text-muted mb-3">Community hub</p>
+              <div class="mb-3">
+                <span class="online-indicator" style="background: rgba(0, 255, 136, 0.2); border: 1px solid rgba(0, 255, 136, 0.4); color: #00ff88;">
+                  <span class="online-dot" style="background: #00ff88; box-shadow: 0 0 10px rgba(0, 255, 136, 0.8);"></span>
+                  ACTIVE
+                </span>
+                <div class="follower-count mt-2">8.5K members</div>
+              </div>
+              <div class="viewer-count mx-auto" style="width: fit-content; background: rgba(0, 255, 136, 0.2); color: #00ff88; border-color: rgba(0, 255, 136, 0.3);">
+                <i class="fas fa-users"></i> 2.1K online
+              </div>
+            </div>
+            
+            <p class="card-text mb-4 text-center" style="color: rgba(255, 255, 255, 0.8);">
+              Exclusive community • Behind the scenes • Giveaways • Team announcements
+            </p>
+            
+            <div class="d-flex gap-2 mb-3">
+              <button class="cyber-button flex-fill">
+                <i class="fas fa-plus me-2"></i>Join Server
+              </button>
+              <button class="btn cyber-outline-button flex-fill" style="border-color: #00ff88; color: #00ff88;">
+                <i class="fas fa-comment me-2"></i>Chat Now
+              </button>
+            </div>
+            
+            <div class="stream-stats">
+              <div class="stat-item">
+                <i class="fas fa-gift"></i>
+                <span>Giveaways</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-bell"></i>
+                <span>Alerts</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Safe Space</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
       
       <div class="col-md-4">
         <div class="card platform-card h-100">
@@ -342,8 +1163,8 @@
       <h2 class="text-white fw-bold mb-3">Want to Collaborate?</h2>
       <p class="text-white mb-4">Join our content creation team or sponsor our streams</p>
       <div class="d-flex gap-3 justify-content-center">
-        <a href="/join_us" class="btn btn-light btn-lg">Join Our Team</a>
-        <a href="#" class="btn btn-outline-light btn-lg">Sponsor Us</a>
+        <a href="/join_us" class="cyber-button btn-lg">Join Our Team</a>
+        <a href="#" class="cyber-button btn-lg" style="background: linear-gradient(135deg, #764ba2, #8e44ad);">Sponsor Us</a>
       </div>
     </div>
   </section>
