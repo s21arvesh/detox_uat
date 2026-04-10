@@ -8,6 +8,7 @@ class CustomLoginRequiredMiddleware:
     def __call__(self, request):
         # Define public paths that don't require authentication
         public_paths = [
+            '/',
             '/login/',
             '/signup/',
             '/static/',

@@ -246,6 +246,23 @@
     text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
   }
   
+  .gaming-signup-link {
+    color: #51cf66;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .gaming-signup-link:hover {
+    color: #40c057;
+    text-decoration: none;
+    text-shadow: 0 0 15px rgba(81, 207, 102, 0.6);
+    transform: translateY(-1px);
+  }
+  
   .gaming-icon {
     font-size: 4rem;
     margin-bottom: 1rem;
@@ -529,6 +546,11 @@
         </button>
       </form>
       
+      <!-- Signup Link -->
+      <div class="text-center mt-3">
+        <p class="text-white-50">No squad yet? <a href="/signup/" class="gaming-signup-link">JOIN THE ELITE</a></p>
+      </div>
+      
       <!-- Back Link -->
       <div class="text-center mt-4">
         <a href="/" class="gaming-back-link">
@@ -632,8 +654,13 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         
         // Insert alert at the top of the login body
-        const loginBody = document.querySelector('.login-body');
-        loginBody.insertBefore(alertDiv, loginBody.firstChild);
+        const loginBody = document.querySelector('.gaming-login-body');
+        if (loginBody) {
+            loginBody.insertBefore(alertDiv, loginBody.firstChild);
+        } else {
+            // Fallback: add to body if gaming-login-body not found
+            document.body.insertBefore(alertDiv, document.body.firstChild);
+        }
         
         // Auto-remove after 5 seconds
         setTimeout(() => {

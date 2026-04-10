@@ -27,17 +27,30 @@ def login_view(request):
             username = request.POST.get('username')
             password = request.POST.get('password')
 
-            # Temporary test login without database
-            if username == 'venom@2021' and password == 'venom123':
-                # Create session manually
-                request.session['user_id'] = 1
-                request.session['username'] = username
-                request.session['is_authenticated'] = True
-                request.session.save()
-                
-                return JsonResponse({'success': True, 'message': f'Welcome back, {username}!'})
-            else:
-                return JsonResponse({'success': False, 'error': 'Invalid username or password.'})
+            # Single query to validate username and password
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT id, user, password, first_name, last_name FROM users WHERE user = %s AND password = %s", [username, password])
+                    user_data = cursor.fetchone()
+                    
+                    if user_data:
+                        # User found and password matches - create session directly
+                        user_id, db_username, db_password, first_name, last_name = user_data
+                        
+                        # Create session manually since we're using custom database
+                        request.session['user_id'] = user_id
+                        request.session['username'] = db_username
+                        request.session['first_name'] = first_name
+                        request.session['last_name'] = last_name
+                        request.session['is_authenticated'] = True
+                        request.session.save()
+                        
+                        display_name = first_name or db_username
+                        return JsonResponse({'success': True, 'message': f'Welcome back, {display_name}!'})
+                    else:
+                        return JsonResponse({'success': False, 'error': 'Invalid username or password.'})
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': 'Authentication failed.'})
         else:
             # Traditional form submission (non-AJAX)
             form = AuthenticationForm(request, data=request.POST)
@@ -102,9 +115,9 @@ def signup_view(request):
             try:
                 with connection.cursor() as cursor:
                     cursor.execute("""
-                        INSERT INTO users (user, password, favorite_game, experience_level, created_at)
-                        VALUES (%s, %s, %s, %s, NOW())
-                    """, [email, password, favorite_game, experience_level])
+                        INSERT INTO users (user, password, first_name, last_name, favorite_game, experience_level, created_at)
+                        VALUES (%s, %s, %s, %s, %s, %s, NOW())
+                    """, [email, password, username, '', favorite_game, experience_level])
             except Exception as db_error:
                 # Continue even if custom database fails
                 pass
@@ -113,4 +126,5 @@ def signup_view(request):
         except Exception as e:
             return JsonResponse({'success': False, 'error': 'Registration failed. Please try again.'})
     
-    return JsonResponse({'success': False, 'error': 'Invalid request method.'})
+    # Handle GET request - display signup page
+    return render(request, 'signup.html')
