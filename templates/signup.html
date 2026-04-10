@@ -1,0 +1,520 @@
+{% extends 'base_auth.html' %}
+{% block title %} PLAYER SIGNUP - DETOX GAMING {% endblock title %}
+{% block body %}
+
+<style>
+  /* Epic Gaming Login Page */
+  .gaming-login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #2d1b69 100%);
+    padding: 2rem 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Animated Background */
+  .gaming-login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(255, 107, 107, 0.2) 0%, transparent 50%);
+    animation: gamingGradient 20s ease-in-out infinite;
+  }
+  
+  @keyframes gamingGradient {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-30px, -30px) rotate(120deg); }
+    66% { transform: translate(30px, -20px) rotate(240deg); }
+  }
+  
+  /* Grid Background */
+  .grid-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(102, 126, 234, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(102, 126, 234, 0.1) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 15s linear infinite;
+  }
+  
+  @keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(60px, 60px); }
+  }
+  
+  /* Floating Gaming Elements */
+  .floating-gaming-element {
+    position: absolute;
+    opacity: 0.15;
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+  }
+  
+  /* Login Card */
+  .gaming-login-card {
+    background: linear-gradient(135deg, rgba(15, 15, 30, 0.9), rgba(26, 26, 46, 0.9));
+    border-radius: 25px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    max-width: 450px;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .gaming-login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #667eea, #764ba2, transparent);
+    animation: scanLine 3s linear infinite;
+  }
+  
+  @keyframes scanLine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+  
+  /* Login Header */
+  .gaming-login-header {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    position: relative;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+  }
+  
+  .gaming-icon {
+    font-size: 3.5rem;
+    color: #667eea;
+    margin-bottom: 1rem;
+    display: block;
+    text-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  
+  .gaming-login-header h1 {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .gaming-login-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+  }
+  
+  /* Login Body */
+  .gaming-login-body {
+    padding: 2.5rem 2rem 3rem;
+    position: relative;
+  }
+  
+  /* Form Controls */
+  .gaming-form-floating {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  
+  .gaming-form-control {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    border-radius: 15px;
+    color: white;
+    font-size: 1rem;
+    padding: 1rem 1.25rem;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+  
+  .gaming-form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .gaming-form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  .gaming-form-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    border-radius: 15px;
+    color: white;
+    font-size: 1rem;
+    padding: 1rem 1.25rem;
+    width: 100%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .gaming-form-select option {
+    background: #1a1a2e;
+    color: white;
+  }
+  
+  .gaming-form-select:focus {
+    outline: none;
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  /* Login Button */
+  .gaming-btn-login {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 1rem 2rem;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+  }
+  
+  .gaming-btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+  }
+  
+  .gaming-btn-login:hover::before {
+    left: 100%;
+  }
+  
+  .gaming-btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+  }
+  
+  .gaming-btn-login:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  /* Password Toggle */
+  .gaming-password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .gaming-password-toggle:hover {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  /* Alert Styling */
+  .alert {
+    border-radius: 15px;
+    border: none;
+    margin-bottom: 1.5rem;
+    animation: slideInDown 0.5s ease;
+  }
+  
+  @keyframes slideInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .alert-success {
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.2), rgba(46, 204, 113, 0.2));
+    color: #2ecc71;
+    border: 1px solid rgba(39, 174, 96, 0.3);
+  }
+  
+  .alert-danger {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.2));
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+  }
+  
+  /* Signup Link */
+  .gaming-signup-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .gaming-signup-link:hover {
+    color: #764ba2;
+    text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 576px) {
+    .gaming-login-card {
+      margin: 1rem;
+      max-width: none;
+    }
+    
+    .gaming-login-header {
+      padding: 2rem 1.5rem 1.5rem;
+    }
+    
+    .gaming-login-header h1 {
+      font-size: 2rem;
+    }
+    
+    .gaming-login-body {
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>
+
+<!-- Epic Gaming Signup Section -->
+<div class="gaming-login-container">
+  <div class="grid-bg"></div>
+  
+  <!-- Floating Gaming Elements -->
+  <div class="floating-gaming-element" style="top: 15%; left: 10%; font-size: 3rem;">
+    <i class="fas fa-gamepad"></i>
+  </div>
+  <div class="floating-gaming-element" style="top: 25%; right: 15%; font-size: 2.5rem; animation-delay: 1s;">
+    <i class="fas fa-trophy"></i>
+  </div>
+  <div class="floating-gaming-element" style="bottom: 35%; left: 20%; font-size: 2.8rem; animation-delay: 2s;">
+    <i class="fas fa-crosshairs"></i>
+  </div>
+  <div class="floating-gaming-element" style="bottom: 25%; right: 10%; font-size: 2.5rem; animation-delay: 3s;">
+    <i class="fas fa-fire"></i>
+  </div>
+  
+  <div class="gaming-login-card">
+    <!-- Gaming Signup Header -->
+    <div class="gaming-login-header">
+      <i class="fas fa-user-plus gaming-icon"></i>
+      <h1>PLAYER SIGNUP</h1>
+      <p class="gaming-login-subtitle">JOIN THE ELITE</p>
+    </div>
+
+    <!-- Gaming Signup Body -->
+    <div class="gaming-login-body">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" id="signupForm">
+        {% csrf_token %}
+        
+        <!-- Username Field -->
+        <div class="gaming-form-floating">
+          <input type="text" name="username" class="gaming-form-control" id="username" placeholder="Enter your username" required autocomplete="off">
+        </div>
+
+        <!-- Email Field -->
+        <div class="gaming-form-floating">
+          <input type="email" name="email" class="gaming-form-control" id="email" placeholder="Enter your email" required autocomplete="off">
+        </div>
+
+        <!-- Password Field -->
+        <div class="gaming-form-floating" style="position: relative;">
+          <input type="password" name="password" class="gaming-form-control" id="password" placeholder="Enter your password" required autocomplete="new-password">
+          <button type="button" class="gaming-password-toggle" id="togglePassword">
+            <i class="fas fa-eye" id="eyeIcon"></i>
+          </button>
+        </div>
+
+        <!-- Favorite Game Field -->
+        <div class="gaming-form-floating">
+          <select name="favorite_game" class="gaming-form-select" id="favorite_game" required>
+            <option value="">Select your favorite game</option>
+            <option value="BGMI">BGMI</option>
+            <option value="Valorant">Valorant</option>
+            <option value="COD Mobile">COD Mobile</option>
+          </select>
+        </div>
+
+        <!-- Experience Level Field -->
+        <div class="gaming-form-floating">
+          <select name="experience_level" class="gaming-form-select" id="experience_level" required>
+            <option value="">Select your experience level</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+            <option value="Professional">Professional</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="gaming-btn-login" id="submitBtn">
+          <i class="fas fa-user-plus me-2"></i>CREATE ACCOUNT
+        </button>
+        
+        <!-- Login Link -->
+        <div class="text-center mt-4">
+          <p class="text-white-50 mb-0">
+            Already have an account? 
+            <a href="/login/" class="gaming-signup-link">SIGN IN</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// Password Toggle
+document.getElementById('togglePassword').addEventListener('click', function() {
+  const passwordInput = document.getElementById('password');
+  const eyeIcon = document.getElementById('eyeIcon');
+  
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    eyeIcon.classList.remove('fa-eye');
+    eyeIcon.classList.add('fa-eye-slash');
+  } else {
+    passwordInput.type = 'password';
+    eyeIcon.classList.remove('fa-eye-slash');
+    eyeIcon.classList.add('fa-eye');
+  }
+});
+
+// Form Submission
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const submitBtn = document.getElementById('submitBtn');
+  const originalText = submitBtn.innerHTML;
+  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>CREATING...';
+  submitBtn.disabled = true;
+  
+  const formData = new FormData(this);
+  
+  fetch('/signup/', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // Show success message and redirect
+      window.location.href = '/login/?message=' + encodeURIComponent(data.message);
+    } else {
+      // Show error message
+      showAlert('error', data.error || 'Registration failed. Please try again.');
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
+  })
+  .catch(error => {
+    console.error('Signup error:', error);
+    showAlert('error', 'System error. Please try again.');
+    submitBtn.innerHTML = originalText;
+    submitBtn.disabled = false;
+  });
+});
+
+// Alert function
+function showAlert(type, message) {
+  // Remove existing alerts
+  const existingAlert = document.querySelector('.alert');
+  if (existingAlert) {
+    existingAlert.remove();
+  }
+  
+  // Create new alert
+  const alertDiv = document.createElement('div');
+  alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+  alertDiv.innerHTML = `
+    ${message}
+  `;
+  
+  // Insert at the top of the form
+  const form = document.getElementById('signupForm');
+  form.parentNode.insertBefore(alertDiv, form);
+  
+  // Auto remove after 5 seconds
+  setTimeout(() => {
+    if (alertDiv.parentNode) {
+      alertDiv.remove();
+    }
+  }, 5000);
+}
+</script>
+
+{% endblock %}

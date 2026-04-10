@@ -162,6 +162,20 @@
     margin-bottom: 4rem;
   }
   
+  .user-welcome {
+    animation: fadeInUp 1.2s ease-out;
+    margin-bottom: 4rem;
+  }
+  
+  .user-welcome h4 {
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+  }
+  
   .btn-esports {
     padding: 20px 50px;
     font-weight: 700;
@@ -701,12 +715,33 @@
         
         <!-- Authentication Buttons -->
         <div class="auth-buttons">
-          <button class="btn btn-esports btn-sign-in" onclick="showLogin()">
-            <i class="fas fa-sign-in-alt me-3"></i>ENTER BATTLEFIELD
-          </button>
-          <button class="btn btn-esports btn-sign-up" onclick="showSignUp()">
-            <i class="fas fa-user-plus me-3"></i>JOIN SQUAD
-          </button>
+          {% if request.session.is_authenticated %}
+            <!-- User is authenticated -->
+            <div class="user-welcome">
+              <h4 class="text-white mb-3">
+                <i class="fas fa-user-circle me-2"></i>
+                Welcome, {{ request.session.first_name|default:request.session.username }}!
+              </h4>
+              <div class="d-flex gap-3 justify-content-center">
+                <a href="/home/" class="btn btn-esports btn-sign-in">
+                  <i class="fas fa-home me-2"></i>GO TO DASHBOARD
+                </a>
+                <a href="/logout/" class="btn btn-esports btn-sign-up">
+                  <i class="fas fa-sign-out-alt me-2"></i>LOGOUT
+                </a>
+              </div>
+            </div>
+          {% else %}
+            <!-- User is not authenticated - Show buttons -->
+            <div class="d-flex gap-4 justify-content-center">
+              <a href="/login/" class="btn btn-esports btn-sign-in">
+                <i class="fas fa-sign-in-alt me-2"></i>SIGN IN
+              </a>
+              <a href="/signup/" class="btn btn-esports btn-sign-up">
+                <i class="fas fa-user-plus me-2"></i>SIGN UP
+              </a>
+            </div>
+          {% endif %}
         </div>
         
         <!-- Game Cards -->
@@ -1292,7 +1327,8 @@
       border-color: rgba(255, 255, 255, 0.5);
       color: white;
     }
-  </style>
+  }
+</style>
 </section>
 
 <script>
