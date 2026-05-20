@@ -25,6 +25,7 @@ def login_view(request):
     messages.get_messages(request).used = True
     
     if request.method == 'POST':
+        print("request.headers", request.headers)
         # Check if this is an AJAX request
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             username = request.POST.get('username')
