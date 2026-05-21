@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: detox_uat_web
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=myproject.settings
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    command: gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 --reload
