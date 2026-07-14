@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-n6yo73cmy#d(c6)igj)y_p*!&1=w_^3rgf=c(-2999_-jl720a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['32.196.230.61', 'localhost', '127.0.0.1']
+# ec2 public ip
+ALLOWED_HOSTS = ['98.92.87.105','32.196.230.61', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -82,8 +83,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'detox_db',
         'USER': 'admin',
-        'PASSWORD': 'Sarvesh21',
-        'HOST': 'detox-db.cyrge6k2036y.us-east-1.rds.amazonaws.com',
+        'PASSWORD': 'Admin@12345',
+        'HOST': '54.167.49.21',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
